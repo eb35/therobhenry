@@ -1,27 +1,28 @@
 # Agent context: astro-therobhenry
 
-Personal site based on the Astro **blog** starter template. Early stage — mostly default template content and structure.
+Personal site and blog for **Rob Henry** at **https://therobhenry.com**. Rebuilt from the Astro blog template; revived May 2026 with Astro 6 + Cloudflare.
 
 ## Stack
 
-- **Astro** 6 (`astro.config.mjs`)
+- **Astro** 6 (`astro.config.mjs`) — `site: https://therobhenry.com`
 - **Content**: Markdown & MDX via Astro content collections (`src/content.config.ts`)
-- **Styling**: Tailwind CSS v4 via `@tailwindcss/vite` (`src/styles/global.css`)
-- **Fonts**: Local Atkinson (configured in `astro.config.mjs`, files under `src/assets/fonts/`)
+- **Styling**: Bear Blog–style CSS in `src/styles/global.css` (teal accent `#0d6e6e`); Tailwind v4 wired via Vite
+- **Fonts**: Local Atkinson (`astro.config.mjs`, `src/assets/fonts/`)
 - **Integrations**: `@astrojs/mdx`, `@astrojs/rss`, `@astrojs/sitemap`
-- **Deploy**: Cloudflare Workers/Pages via `@astrojs/cloudflare` + Wrangler (`wrangler.jsonc`)
+- **Deploy**: Cloudflare via `@astrojs/cloudflare` + Wrangler (`wrangler.jsonc`)
 
 ## Project layout
 
 ```text
-public/                 # Static assets (favicon, etc.)
+public/                 # favicon.svg, static assets
 src/
-  components/           # Header, Footer, BaseHead, FormattedDate, …
-  content/blog/         # Blog posts (.md, .mdx) — sample starter posts
+  components/           # Header, Footer, BaseHead, …
+  content/blog/         # Blog posts (Markdown/MDX)
   layouts/              # BlogPost.astro
-  pages/                # Routes (index, about, blog/, rss.xml.js)
+  pages/                # index, about, blog/, rss.xml.js
   styles/global.css
   consts.ts             # SITE_TITLE, SITE_DESCRIPTION
+docs/DEPLOY.md          # Cloudflare Pages deploy steps
 astro.config.mjs
 wrangler.jsonc
 ```
@@ -33,7 +34,7 @@ wrangler.jsonc
 | `/` | `src/pages/index.astro` |
 | `/about` | `src/pages/about.astro` |
 | `/blog` | `src/pages/blog/index.astro` |
-| `/blog/*` | `src/pages/blog/[...slug].astro` (content collection) |
+| `/blog/*` | `src/pages/blog/[...slug].astro` |
 | `/rss.xml` | `src/pages/rss.xml.js` |
 
 ## Content collections
@@ -41,32 +42,40 @@ wrangler.jsonc
 - Collection: `blog` in `src/content.config.ts`
 - Posts: `src/content/blog/**/*.{md,mdx}`
 - Schema: `title`, `description`, `pubDate`, optional `updatedDate`, optional `heroImage`
+- Slug = filename without extension (e.g. `hello-again.md` → `/blog/hello-again`)
 
 ## Commands
 
 | Command | Action |
 |---------|--------|
 | `npm install` | Install dependencies |
-| `npm run dev` | Dev server (default `localhost:4321`) |
+| `npm run dev` | Dev server (`localhost:4321`) |
 | `npm run build` | Production build → `dist/` |
 | `npm run preview` | Preview production build locally |
-| `npm run generate-types` | `wrangler types` for Cloudflare bindings |
+| `npm run generate-types` | `wrangler types` |
 
-**Node**: `>=22.12.0` (see `package.json` `engines`).
+**Node**: `>=22.12.0`
 
-## Configuration notes
+## Site identity
 
-- **`astro.config.mjs`**: `site` is still `https://example.com` — update before production SEO/sitemap/RSS.
-- **`src/consts.ts`**: `SITE_TITLE` / `SITE_DESCRIPTION` still Astro blog defaults.
-- **`wrangler.jsonc`**: Worker name `astro-therobhenry`; assets served from `./dist`; observability enabled.
+- **`src/consts.ts`**: `SITE_TITLE` = `therobhenry.com`, personal description
+- **Social**: GitHub `https://github.com/therobhenry` in Header/Footer
+- **Branding**: teal accent in `global.css`; `RH` favicon in `public/favicon.svg`
+
+## Deploy workflow
+
+See **[docs/DEPLOY.md](docs/DEPLOY.md)** for Cloudflare Pages (Git CI) and Wrangler manual deploy.
+
+Quick loop: `npm run dev` → edit → `npm run build` → push → Pages builds automatically.
 
 ## Ignored paths
 
-- **Git** (`.gitignore`): `dist/`, `.astro/`, `node_modules/`, `.wrangler/`, env files, etc.
-- **Cursor** (`.cursorignore`): same build/cache dirs plus `package-lock.json` for indexing.
+- **Git**: `dist/`, `.astro/`, `node_modules/`, `.wrangler/`, env files
+- **Cursor**: same + `package-lock.json`
 
-## Conventions (for now)
+## Conventions
 
-- Prefer editing existing Astro components and content collection posts over adding new frameworks.
-- Blog posts live under `src/content/blog/`; pages under `src/pages/`.
-- Do not commit `.wrangler/` or local Wrangler SQLite state.
+- Prefer Astro components and content collections over new frameworks.
+- Blog posts under `src/content/blog/`; static pages under `src/pages/`.
+- Do not commit `.wrangler/`.
+- Fresh blog slate — no migrated WordPress posts in repo.

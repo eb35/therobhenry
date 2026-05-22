@@ -1,0 +1,24 @@
+---
+description: How to add and edit blog posts on therobhenry.com
+globs: src/content/blog/**/*
+alwaysApply: false
+---
+
+# Blog posts
+
+- Add Markdown (or MDX) files under `src/content/blog/`.
+- Filename becomes the URL slug: `my-topic.md` → `/blog/my-topic`.
+- Required frontmatter (see `src/content.config.ts`):
+
+```yaml
+---
+title: 'Post title'
+description: 'One-line summary for SEO and listings'
+pubDate: 'May 11 2026'
+heroImage: '../../assets/blog-placeholder-1.jpg'  # optional
+updatedDate: 'May 12 2026'  # optional
+---
+```
+
+- Run `npm run dev` and check `/blog`, the post URL, and `/rss.xml`.
+- Keep voice consistent with existing posts: practical, first-person, learning-in-public.
