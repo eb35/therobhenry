@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <header>
@@ -11,7 +12,8 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
-		<div class="social-links">
+		<div class="header-actions">
+			<ThemeToggle />
 			<a href="https://github.com/therobhenry" target="_blank" rel="noopener noreferrer">
 				<span class="sr-only">Rob Henry on GitHub</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
@@ -28,8 +30,9 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
+		background: rgb(var(--surface-header));
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		flex-shrink: 0;
 	}
 	h2 {
 		margin: 0;
@@ -47,7 +50,7 @@ import HeaderLink from './HeaderLink.astro';
 	}
 	nav a {
 		padding: 1em 0.5em;
-		color: var(--black);
+		color: rgb(var(--black));
 		border-bottom: 4px solid transparent;
 		text-decoration: none;
 	}
@@ -55,12 +58,19 @@ import HeaderLink from './HeaderLink.astro';
 		text-decoration: none;
 		border-bottom-color: var(--accent);
 	}
-	.social-links,
-	.social-links a {
+	.header-actions {
 		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
+
+	.header-actions a {
+		display: flex;
+		padding: 0.25em;
+	}
+
 	@media (max-width: 720px) {
-		.social-links {
+		.header-actions a[href*='github'] {
 			display: none;
 		}
 	}

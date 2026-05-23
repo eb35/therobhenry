@@ -4,24 +4,53 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
-:root {
+:root,
+[data-theme='light'] {
+	color-scheme: light;
 	--accent: #0d6e6e;
 	--accent-dark: #084848;
 	--black: 15, 18, 25;
 	--gray: 96, 115, 159;
 	--gray-light: 229, 233, 240;
 	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
+	--surface-header: 255, 255, 255;
+	--page-bg: 255, 255, 255;
+	--gray-gradient: rgba(var(--gray-light), 50%), rgb(var(--page-bg));
 	--box-shadow:
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
+
+[data-theme='dark'] {
+	color-scheme: dark;
+	--accent: #3dd6d0;
+	--accent-dark: #2bb8b3;
+	--black: 240, 244, 248;
+	--gray: 148, 163, 184;
+	--gray-light: 51, 65, 85;
+	--gray-dark: 203, 213, 225;
+	--surface-header: 22, 26, 35;
+	--page-bg: 15, 18, 25;
+	--gray-gradient: rgba(30, 35, 48, 0.6), rgb(var(--page-bg));
+	--box-shadow:
+		0 2px 6px rgba(0, 0, 0, 35%), 0 8px 24px rgba(0, 0, 0, 45%),
+		0 16px 32px rgba(0, 0, 0, 45%);
+}
+
+html {
+	height: 100%;
+}
+
 body {
 	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 	text-align: left;
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
+	background-color: rgb(var(--page-bg));
 	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
@@ -29,12 +58,19 @@ body {
 	font-size: 20px;
 	line-height: 1.7;
 }
+
 main {
+	flex: 1 0 auto;
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
 }
+
+footer {
+	flex-shrink: 0;
+}
+
 h1,
 h2,
 h3,

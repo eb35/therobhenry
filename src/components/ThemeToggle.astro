@@ -1,0 +1,66 @@
+<button type="button" class="theme-toggle" aria-label="Toggle dark mode" data-theme-toggle>
+	<span class="theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">☀</span>
+	<span class="theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">☾</span>
+</button>
+
+<script>
+	const STORAGE_KEY = 'theme';
+
+	function syncToggleButton() {
+		const isDark = document.documentElement.dataset.theme === 'dark';
+		document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+			btn.setAttribute('aria-pressed', String(isDark));
+			btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+		});
+	}
+
+	function setTheme(theme) {
+		document.documentElement.dataset.theme = theme;
+		localStorage.setItem(STORAGE_KEY, theme);
+		syncToggleButton();
+	}
+
+	document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+			setTheme(next);
+		});
+	});
+
+	syncToggleButton();
+</script>
+
+<style>
+	.theme-toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 8px;
+		background: transparent;
+		color: rgb(var(--black));
+		cursor: pointer;
+		font-size: 1.1rem;
+		line-height: 1;
+	}
+
+	.theme-toggle:hover {
+		border-color: var(--accent);
+		color: var(--accent);
+	}
+
+	.theme-toggle-icon--dark {
+		display: none;
+	}
+
+	html[data-theme='dark'] .theme-toggle-icon--light {
+		display: none;
+	}
+
+	html[data-theme='dark'] .theme-toggle-icon--dark {
+		display: inline;
+	}
+</style>
