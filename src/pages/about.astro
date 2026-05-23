@@ -1,5 +1,6 @@
 ---
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import { SOCIAL_LINKS } from '../consts';
 import Layout from '../layouts/BlogPost.astro';
 ---
 
@@ -30,6 +31,16 @@ import Layout from '../layouts/BlogPost.astro';
 
 	<p>
 		If you find something useful here, I'd love to hear it. Comments may come later; for now, find
-		me on <a href="https://github.com/therobhenry">GitHub</a>.
+		me on{' '}
+		{
+			SOCIAL_LINKS.map((link, index) => (
+				<>
+					{index > 0 && (index === SOCIAL_LINKS.length - 1 ? ' or ' : ', ')}
+					<a href={link.href} target="_blank" rel="noopener noreferrer">
+						{link.name}
+					</a>
+				</>
+			))
+		}.
 	</p>
 </Layout>

@@ -59,7 +59,7 @@ wrangler.jsonc
 ## Site identity
 
 - **`src/consts.ts`**: `SITE_TITLE` = `therobhenry.com`, personal description
-- **Social**: GitHub `https://github.com/therobhenry` in Header/Footer
+- **Social**: `SOCIAL_LINKS` in `src/consts.ts`; icons via `SocialLinks.astro` in Header/Footer
 - **Branding**: teal accent in `global.css`; `RH` favicon in `public/favicon.svg`
 
 ## Deploy workflow
