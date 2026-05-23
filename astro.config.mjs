@@ -42,5 +42,8 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    // Bake optimized images at build for prerendered pages; use Cloudflare Images at runtime when needed
+    imageService: { build: 'compile', runtime: 'cloudflare-binding' },
+  }),
 });

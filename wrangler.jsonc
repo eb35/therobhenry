@@ -1,8 +1,13 @@
 {
 	"compatibility_date": "2026-05-11",
-	"compatibility_flags": ["global_fetch_strictly_public"],
+	"compatibility_flags": [
+		"global_fetch_strictly_public"
+	],
 	"name": "therobhenry",
 	"main": "@astrojs/cloudflare/entrypoints/server",
+	"images": {
+		"binding": "IMAGES"
+	},
 	"assets": {
 		"directory": "./dist",
 		"binding": "ASSETS"

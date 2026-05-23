@@ -1,12 +1,15 @@
-# Deploying to Cloudflare Pages
+# Deploying to Cloudflare Workers
 
 Production site: **https://therobhenry.com**
+
+This project uses **Astro 6** with **`@astrojs/cloudflare`** (Worker + static assets). Deploy with **Workers Builds**, not classic “Pages output directory only.”
 
 ## Prerequisites
 
 - Cloudflare account with access to the `therobhenry.com` zone
 - Node.js `>=22.12.0` (see `package.json`)
-- Git repo pushed to GitHub (or GitLab) for CI deploy, *or* Wrangler CLI for manual deploy
+- Git repo on GitHub (private is fine): `eb35/therobhenry`
+- [Cloudflare Images](https://developers.cloudflare.com/images/) available on your account (used for `/_image` resizing)
 
 ## Local check before deploy
 
@@ -15,37 +18,53 @@ npm run build
 npm run preview
 ```
 
-Open `http://localhost:4321` and verify `/`, `/about`, `/blog`, `/blog/hello-again`, and `/rss.xml`.
+Verify `/`, `/about`, `/blog`, `/blog/hello-again`, `/rss.xml`, and that blog hero images load (not broken `/_image` icons).
 
-## Option A: Cloudflare Pages (Git — recommended)
+## Workers Builds (Git — recommended)
 
-1. In [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Select this repository.
+1. [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create application** → **Import from Git**.
+2. Select **`eb35/therobhenry`** and grant access if the repo is private.
 3. Build settings:
    - **Build command:** `npm run build`
-   - **Build output directory:** `dist` (Astro + Cloudflare adapter outputs here; Wrangler serves `./dist` per `wrangler.jsonc`)
-   - **Node version:** 22 or later (match `engines` in `package.json`)
-4. Save and deploy. Fix any build errors from the Pages build log.
-5. **Custom domain:** Pages project → **Custom domains** → add `therobhenry.com` (and `www.therobhenry.com` if needed).
-6. Update DNS at your registrar per Cloudflare’s instructions (usually CNAME to `*.pages.dev` or nameservers on Cloudflare).
+   - **Deploy command:** `npx wrangler deploy`
+   - **Root directory:** (blank)
+   - **Node version:** 22 or later
+4. Do **not** use “build output directory only” without `wrangler deploy` — that skips the Worker and breaks routing/images.
+5. After deploy, open the **workers.dev** URL from the deployment log.
+6. **Custom domain:** application → **Custom domains** → add `therobhenry.com` (and `www` if needed).
 
-## Option B: Manual deploy with Wrangler
+## Manual deploy with Wrangler
 
 ```sh
 npm run build
-npx wrangler pages deploy dist --project-name=astro-therobhenry
+npx wrangler deploy
 ```
 
-Use the same project name as in `wrangler.jsonc` if you already created a Worker/Pages project.
+Project name comes from [`wrangler.jsonc`](wrangler.jsonc) (`therobhenry`).
+
+## Images (Cloudflare + Astro)
+
+Blog heroes use Astro `<Image />`. In [`astro.config.mjs`](astro.config.mjs):
+
+```js
+imageService: { build: 'compile', runtime: 'cloudflare-binding' }
+```
+
+- **At build time**, prerendered pages get optimized WebP/JPEG files under `/_astro/` (no `/_image` URLs). This avoids 404s because the `/_image` worker route is not used for static pages in Astro 6.
+- **`IMAGES`** binding in [`wrangler.jsonc`](wrangler.jsonc) stays enabled for **runtime** resizing if you add server-rendered pages later.
+- **`ASSETS`** serves static files from `./dist` (Astro maps assets to `dist/client` in the generated worker config).
+
+After deploy, view source on `/blog`: image `src` should look like `/_astro/blog-placeholder-1.*.webp`, not `/_image?href=...`.
 
 ## After first deploy
 
 - Confirm `https://therobhenry.com/sitemap-index.xml` loads.
 - Validate RSS: https://validator.w3.org/feed/ (feed URL: `https://therobhenry.com/rss.xml`).
-- Old WordPress URLs will not redirect automatically; add redirect rules in Cloudflare if needed later.
+- Old WordPress URLs are not redirected automatically; add rules in Cloudflare if needed later.
+- Legacy blog may live at `wordpress.therobhenry.com` (separate host; DNS-only subdomain recommended).
 
 ## Ongoing workflow
 
-1. Edit content or code locally (`npm run dev`).
-2. Commit and push to the branch connected to Pages.
-3. Pages runs `npm run build` and publishes automatically.
+1. Edit locally (`npm run dev`).
+2. Commit and push to **`main`**.
+3. Workers Builds runs `npm run build` then `npx wrangler deploy`.

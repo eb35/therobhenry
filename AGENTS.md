@@ -64,9 +64,11 @@ wrangler.jsonc
 
 ## Deploy workflow
 
-See **[docs/DEPLOY.md](docs/DEPLOY.md)** for Cloudflare Pages (Git CI) and Wrangler manual deploy.
+See **[docs/DEPLOY.md](docs/DEPLOY.md)** for Cloudflare Workers Builds (`npm run build` + `npx wrangler deploy`).
 
-Quick loop: `npm run dev` → edit → `npm run build` → push → Pages builds automatically.
+Images: `imageService: { build: 'compile', runtime: 'cloudflare-binding' }` in `astro.config.mjs`; `IMAGES` + `ASSETS` in `wrangler.jsonc`. Prerendered posts use baked `/_astro/*.webp` URLs.
+
+Quick loop: `npm run dev` → edit → `npm run build` → push → Workers Builds deploys automatically.
 
 ## Ignored paths
 
