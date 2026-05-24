@@ -22,7 +22,9 @@ src/
   pages/                # index, about, blog/, rss.xml.js
   styles/global.css
   consts.ts             # SITE_TITLE, SITE_DESCRIPTION
-docs/DEPLOY.md          # Cloudflare Pages deploy steps
+docs/DEPLOY.md          # Cloudflare Workers deploy steps
+.npmrc                  # min-release-age=7
+renovate.json           # dependency update bot config
 astro.config.mjs
 wrangler.jsonc
 ```
@@ -54,7 +56,15 @@ wrangler.jsonc
 | `npm run preview` | Preview production build locally |
 | `npm run generate-types` | `wrangler types` |
 
-**Node**: `>=22.12.0`
+**Node**: `>=22.12.0` · **npm**: 11.10+ (for `min-release-age` in `.npmrc`)
+
+## Dependencies
+
+- **`.npmrc`**: `min-release-age=7` — npm refuses versions published in the last 7 days. Override one-off: `npm install pkg --min-release-age=0`.
+- **`renovate.json`**: Renovate opens grouped PRs (astro, tailwind, wrangler) with the same 7-day cooldown. Install the [Renovate GitHub App](https://github.com/apps/renovate) on `eb35/therobhenry` once; it picks up config on the next scan.
+- **Maintenance pass** (monthly or before infra work): `npm outdated`, `npm audit`, update patch/minor within semver, `npm run build`. In Agent mode: *“Run the dependency maintenance pass per AGENTS.md.”*
+- **Major bumps** (`astro`, `@astrojs/*`, `wrangler`): read changelogs; update as a group.
+- Known upstream lag: some audit findings (e.g. `ws` via `wrangler`) may need a newer wrangler than `min-release-age` allows yet — Renovate security PRs can bypass the cooldown.
 
 ## Site identity
 

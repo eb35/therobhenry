@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard"
+  ],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 5am on the first day of the month"]
+  },
+  "packageRules": [
+    {
+      "description": "Group Astro ecosystem updates",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "groupName": "astro"
+    },
+    {
+      "description": "Group Tailwind updates",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["tailwindcss", "@tailwindcss/**"],
+      "groupName": "tailwind"
+    },
+    {
+      "description": "Wrangler — Cloudflare deploy/runtime",
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["wrangler"],
+      "groupName": "wrangler"
+    },
+    {
+      "description": "Major bumps need manual review",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
