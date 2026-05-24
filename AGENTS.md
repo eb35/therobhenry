@@ -10,6 +10,7 @@ Personal site and blog for **Rob Henry** at **https://therobhenry.com**. Rebuilt
 - **Fonts**: Local Atkinson (`astro.config.mjs`, `src/assets/fonts/`)
 - **Integrations**: `@astrojs/mdx`, `@astrojs/rss`, `@astrojs/sitemap`
 - **Deploy**: Cloudflare via `@astrojs/cloudflare` + Wrangler (`wrangler.jsonc`)
+- **Astro Docs MCP**: `.cursor/mcp.json` — live Astro documentation for agents (`search_astro_docs`). Reload Cursor after config changes.
 
 ## Project layout
 
