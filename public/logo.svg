@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="RH monogram">
+  <rect width="128" height="128" fill="#ffffff"/>
+  <g fill="#0d6e6e">
+    <!-- Shared left stem (R + H) -->
+    <rect x="28" y="28" width="12" height="68"/>
+    <!-- R bowl -->
+    <rect x="40" y="28" width="32" height="12"/>
+    <rect x="72" y="28" width="12" height="28"/>
+    <rect x="40" y="56" width="44" height="12"/>
+    <!-- R leg -->
+    <polygon points="68,68 88,68 104,100 84,100"/>
+    <!-- H crossbar + right stem -->
+    <rect x="40" y="68" width="60" height="12"/>
+    <rect x="88" y="28" width="12" height="68"/>
+  </g>
+</svg>

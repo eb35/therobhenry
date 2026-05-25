@@ -1,4 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#0d6e6e"/>
-  <text x="16" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#fff">RH</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RH monogram">
+  <rect width="32" height="32" fill="#ffffff"/>
+  <g fill="#0d6e6e">
+    <!-- Shared left stem (R + H) -->
+    <rect x="7" y="7" width="3" height="17"/>
+    <!-- R bowl -->
+    <rect x="10" y="7" width="8" height="3"/>
+    <rect x="18" y="7" width="3" height="7"/>
+    <rect x="10" y="14" width="11" height="3"/>
+    <!-- R leg -->
+    <polygon points="17,17 22,17 26,25 21,25"/>
+    <!-- H crossbar + right stem -->
+    <rect x="10" y="17" width="15" height="3"/>
+    <rect x="22" y="7" width="3" height="17"/>
+  </g>
 </svg>
