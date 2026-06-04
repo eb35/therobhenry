@@ -66,5 +66,16 @@ After deploy, view source on `/blog`: image `src` should look like `/_astro/blog
 ## Ongoing workflow
 
 1. Edit locally (`npm run dev`).
-2. Commit and push to **`main`**.
-3. Workers Builds runs `npm run build` then `npx wrangler deploy`.
+2. Open a **pull request** into **`main`** (branch protection requires PRs).
+3. Wait for **CI** (`.github/workflows/ci.yml` — `npm ci` + `npm run build`) to pass.
+4. Merge the PR; **Workers Builds** runs `npm run build` then `npx wrangler deploy`.
+
+### Protecting `main` on GitHub
+
+`main` triggers production deploys, so it should be protected:
+
+1. Merge the CI workflow to `main` and confirm a green **CI / build** check on the default branch.
+2. Log in: `gh auth login`
+3. Run: `./scripts/protect-main-branch.sh`
+
+That enables PRs (no approval required for a solo repo), required **CI / build**, up-to-date branches, and blocks force-push/deletion. Adjust in [branch settings](https://github.com/eb35/therobhenry/settings/branches) if you want admin bypass or required reviews.
