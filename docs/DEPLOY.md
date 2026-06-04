@@ -72,10 +72,20 @@ After deploy, view source on `/blog`: image `src` should look like `/_astro/blog
 
 ### Protecting `main` on GitHub
 
-`main` triggers production deploys, so it should be protected:
+`main` triggers production deploys, so it should be protected when your plan allows it.
 
-1. Merge the CI workflow to `main` and confirm a green **CI / build** check on the default branch.
-2. Log in: `gh auth login`
-3. Run: `./scripts/protect-main-branch.sh`
+**Private repo on GitHub Free:** branch protection is not available (GitHub returns *Upgrade to GitHub Pro or make this repository public*). You still get value from the CI workflow and PR habit; GitHub’s “unprotected branch” banner may remain until you pick one of:
 
-That enables PRs (no approval required for a solo repo), required **CI / build**, up-to-date branches, and blocks force-push/deletion. Adjust in [branch settings](https://github.com/eb35/therobhenry/settings/branches) if you want admin bypass or required reviews.
+| Option | Cost | Notes |
+|--------|------|--------|
+| **GitHub Pro** | ~$4/mo | Keep `eb35/therobhenry` private; run the script below. |
+| **Public repo** | Free | Fine for this site if you never commit secrets (Wrangler tokens stay in Cloudflare). |
+| **No protection** | Free | CI runs on PRs/pushes but cannot block merges. |
+
+When Pro or public applies:
+
+1. Confirm a green GitHub Actions **build** check on `main` (workflow `.github/workflows/ci.yml`).
+2. `gh auth login`
+3. `./scripts/protect-main-branch.sh`
+
+That enables PRs (0 approvals for solo work), required **build** check, up-to-date branches, and blocks force-push/deletion. Override check name with `REQUIRED_STATUS_CHECK='CI / build'` if your repo shows a different label in the merge box.
