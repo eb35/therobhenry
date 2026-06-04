@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Apply branch protection on main for eb35/therobhenry.
-# Prerequisite: CI workflow has run at least once so "CI / build" exists.
+# Prerequisite: CI workflow has run at least once (GitHub Actions check on main).
+# Note: branch protection on private repos requires GitHub Pro (or a public repo).
 set -euo pipefail
 
 REPO="${GITHUB_REPOSITORY:-eb35/therobhenry}"
 OWNER="${REPO%%/*}"
 NAME="${REPO##*/}"
-CHECK="CI / build"
+CHECK="${REQUIRED_STATUS_CHECK:-}"
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "Install GitHub CLI: https://cli.github.com/"
@@ -17,6 +18,36 @@ if ! gh auth status >/dev/null 2>&1; then
   echo "Not logged in. Run: gh auth login"
   exit 1
 fi
+
+VISIBILITY="$(gh repo view "${REPO}" --json visibility -q .visibility)"
+if [[ "${VISIBILITY}" == "PRIVATE" ]]; then
+  cat <<EOF
+${REPO} is private. GitHub Free does not allow branch protection on private repos.
+
+Choose one:
+
+  A) GitHub Pro (~\$4/month, personal account)
+     https://github.com/settings/billing/plans
+     Then re-run: ./scripts/protect-main-branch.sh
+
+  B) Make the repo public (free branch protection)
+     Only do this if the repo has no secrets (this site should not commit API keys).
+     gh repo edit ${REPO} --visibility public
+     Then re-run: ./scripts/protect-main-branch.sh
+
+  C) Stay private without protection
+     Keep using PRs + CI by habit; merges are not blocked by GitHub.
+     GitHub may still show "main is not protected" — that is expected on Free.
+
+EOF
+  exit 1
+fi
+
+if [[ -z "${CHECK}" ]]; then
+  CHECK="$(gh api "repos/${OWNER}/${NAME}/commits/main/check-runs" \
+    --jq '[.check_runs[] | select(.app.slug == "github-actions") | .name][0]' 2>/dev/null || true)"
+fi
+CHECK="${CHECK:-build}"
 
 echo "Checking that status check '${CHECK}' exists on ${REPO}..."
 if ! gh api "repos/${OWNER}/${NAME}/commits/main/check-runs" --jq '.check_runs[].name' 2>/dev/null | grep -qx "${CHECK}"; then
