@@ -23,7 +23,9 @@ src/
   pages/                # index, about, blog/, rss.xml.js
   styles/global.css
   consts.ts             # SITE_TITLE, SITE_DESCRIPTION
-docs/DEPLOY.md          # Cloudflare Workers deploy steps
+docs/DEPLOY.md          # Cloudflare Workers deploy + branch protection
+.github/workflows/ci.yml  # PR/push build check (required before protecting main)
+scripts/protect-main-branch.sh  # gh CLI: apply main branch protection
 .npmrc                  # min-release-age=7
 renovate.json           # dependency update bot config
 astro.config.mjs
@@ -79,7 +81,7 @@ See **[docs/DEPLOY.md](docs/DEPLOY.md)** for Cloudflare Workers Builds (`npm run
 
 Images: `imageService: { build: 'compile', runtime: 'cloudflare-binding' }` in `astro.config.mjs`; `IMAGES` + `ASSETS` in `wrangler.jsonc`. Prerendered posts use baked `/_astro/*.webp` URLs.
 
-Quick loop: `npm run dev` → edit → `npm run build` → push → Workers Builds deploys automatically.
+Quick loop: `npm run dev` → edit → PR to `main` (CI must pass) → merge → Workers Builds deploys automatically.
 
 ## Ignored paths
 
