@@ -1,10 +1,8 @@
-# Astro Starter Kit: Blog
+# therobhenry.com
 
-```sh
-npm create astro@latest -- --template blog
-```
+Personal site and blog for [Rob Henry](https://therobhenry.com) — Astro 6, Cloudflare Workers, public repo [`eb35/therobhenry`](https://github.com/eb35/therobhenry).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Git:** `main` is protected — use a branch and PR. See **[docs/WORKFLOW.md](docs/WORKFLOW.md)**. Deploy details: **[docs/DEPLOY.md](docs/DEPLOY.md)**. Agents: **[AGENTS.md](AGENTS.md)**.
 
 Features:
 

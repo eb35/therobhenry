@@ -1,0 +1,11 @@
+---
+description: Git and PR workflow — never push directly to main
+alwaysApply: true
+---
+
+# Git workflow
+
+- **`main` is protected:** changes reach production only via merged PRs with a green **`build`** check.
+- **Do not** commit on `main`, push to `origin/main`, or suggest bypassing protection unless the user explicitly asks.
+- **Do:** create a feature branch, commit there, push the branch, open/merge a PR (or tell the user to merge).
+- Full steps and “committed on local main” recovery: **[docs/WORKFLOW.md](../../docs/WORKFLOW.md)**.
