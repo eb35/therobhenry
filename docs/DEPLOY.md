@@ -65,10 +65,9 @@ After deploy, view source on `/blog`: image `src` should look like `/_astro/blog
 
 ## Ongoing workflow
 
-1. Edit locally (`npm run dev`).
-2. Open a **pull request** into **`main`** (branch protection requires PRs).
-3. Wait for **CI** (`.github/workflows/ci.yml` — `npm ci` + `npm run build`) to pass.
-4. Merge the PR; **Workers Builds** runs `npm run build` then `npx wrangler deploy`.
+Git (branch → PR → merge, including mistakes on local `main`): **[WORKFLOW.md](WORKFLOW.md)**.
+
+Deploy path after merge to **`main`**: **Workers Builds** runs `npm run build` then `npx wrangler deploy`.
 
 ### Protecting `main` on GitHub
 

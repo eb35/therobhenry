@@ -23,6 +23,7 @@ src/
   pages/                # index, about, blog/, rss.xml.js
   styles/global.css
   consts.ts             # SITE_TITLE, SITE_DESCRIPTION
+docs/WORKFLOW.md        # Git: branch → PR → merge (required for main)
 docs/DEPLOY.md          # Cloudflare Workers deploy + branch protection
 .github/workflows/ci.yml  # PR/push build check (required before protecting main)
 scripts/protect-main-branch.sh  # gh CLI: apply main branch protection
@@ -75,13 +76,19 @@ wrangler.jsonc
 - **Social**: `SOCIAL_LINKS` in `src/consts.ts`; icons via `SocialLinks.astro` in Header/Footer
 - **Branding**: teal accent in `global.css`; `RH` favicon in `public/favicon.svg`
 
+## Git workflow
+
+**`main` is protected** — no direct pushes. See **[docs/WORKFLOW.md](docs/WORKFLOW.md)** for branch → PR → merge steps and recovery if commits landed on local `main`.
+
+Agents: use a feature branch and PR; never commit or push to `main` unless the user explicitly requests an exception.
+
 ## Deploy workflow
 
 See **[docs/DEPLOY.md](docs/DEPLOY.md)** for Cloudflare Workers Builds (`npm run build` + `npx wrangler deploy`).
 
 Images: `imageService: { build: 'compile', runtime: 'cloudflare-binding' }` in `astro.config.mjs`; `IMAGES` + `ASSETS` in `wrangler.jsonc`. Prerendered posts use baked `/_astro/*.webp` URLs.
 
-Quick loop: `npm run dev` → edit → PR to `main` (CI must pass) → merge → Workers Builds deploys automatically.
+Quick loop: `npm run dev` → branch → PR to `main` (CI must pass) → merge → Workers Builds deploys automatically.
 
 ## Ignored paths
 
