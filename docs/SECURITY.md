@@ -8,9 +8,9 @@ This document describes how HTTP security headers and Content Security Policy (C
 
 ## Overview
 
-**CSP** uses Astro 6's built-in [`security.csp`](https://docs.astro.build/en/reference/configuration-reference/#securitycsp) feature. Astro auto-generates SHA-256 hashes for bundled scripts and styles and injects a **per-page** policy. We do **not** hand-roll CSP in middleware — Astro's implementation tracks script/style changes at build time.
+**CSP** uses Astro 6's built-in [`security.csp`](https://docs.astro.build/en/reference/configuration-reference/#securitycsp) feature. Astro auto-generates SHA-256 hashes for bundled scripts and styles. A post-build script ([`scripts/generate-csp-headers.mjs`](../scripts/generate-csp-headers.mjs)) copies each page's policy into [`dist/client/_headers`](../dist/client/_headers) as an HTTP `Content-Security-Policy` header (required for securityheaders.com and `curl -I`). Astro also emits a matching `<meta http-equiv="content-security-policy">` in HTML as a fallback.
 
-**Other headers** (nosniff, Referrer-Policy, etc.) are set via Cloudflare's [`_headers`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/#headers) file in [`public/_headers`](../public/_headers), copied to `dist/` at build and applied to static asset responses.
+**Other headers** (nosniff, Referrer-Policy, etc.) are set via Cloudflare's [`_headers`](https://docs.astro.build/en/guides/integrations-guide/cloudflare/#headers) file in [`public/_headers`](../public/_headers). Baseline rules are copied at build time; CSP rules are appended per route by the post-build script.
 
 **HSTS** is configured at the Cloudflare zone edge (dashboard), not in repo code.
 
@@ -20,11 +20,13 @@ This site is **fully prerendered**. HTML is served from the Cloudflare **ASSETS*
 
 Revisit middleware when adding SSR or on-demand routes.
 
-### Why meta CSP instead of HTTP header?
+### Why HTTP CSP via post-build script?
 
-`@astrojs/cloudflare` does **not** yet support `staticHeaders: true` (unlike Node, Netlify, Vercel). CSP is delivered via `<meta http-equiv="content-security-policy">` in each HTML page. This supports `script-src`, `style-src`, `default-src`, `img-src`, etc.
+`@astrojs/cloudflare` does **not** yet support `staticHeaders: true` (unlike Node, Netlify, Vercel). Without that adapter feature, Astro only emits CSP as a `<meta>` tag — browsers enforce it, but **`curl -I` and securityheaders.com only inspect HTTP response headers**.
 
-Directives that **only work as HTTP headers** (`frame-ancestors`, `report-uri`, `sandbox`) are not enforced via meta. Clickjacking protection uses `X-Frame-Options: DENY` in `_headers` instead.
+[`scripts/generate-csp-headers.mjs`](../scripts/generate-csp-headers.mjs) runs after `astro build`, reads each page's CSP meta tag, and writes per-route `Content-Security-Policy` entries into `dist/client/_headers`. Cloudflare ASSETS applies those headers on static HTML responses.
+
+When upstream adds Cloudflare `staticHeaders`, we can remove this script and let the adapter handle it natively (meta tags would be omitted automatically).
 
 ---
 
@@ -32,14 +34,14 @@ Directives that **only work as HTTP headers** (`frame-ancestors`, `report-uri`, 
 
 | Header | Value | Delivery |
 |--------|-------|----------|
-| `Content-Security-Policy` | Per-page (Astro-generated hashes) | `<meta>` in HTML |
-| `X-Content-Type-Options` | `nosniff` | [`public/_headers`](../public/_headers) |
+| `Content-Security-Policy` | Per-page (Astro-generated hashes) | HTTP via `dist/client/_headers` (post-build) + `<meta>` fallback in HTML |
+| `X-Content-Type-Options` | `nosniff` | [`public/_headers`](../public/_headers) → `dist/client/_headers` |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | `public/_headers` |
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=()` | `public/_headers` |
 | `X-Frame-Options` | `DENY` | `public/_headers` |
 | `Strict-Transport-Security` | `max-age=31536000; includeSubDomains; preload` (suggested) | Cloudflare dashboard |
 
-**Do not** add a static `Content-Security-Policy` to `_headers` — hashes differ per page.
+Per-page CSP is generated at build time — **do not** hand-edit CSP lines in `public/_headers`.
 
 ---
 
@@ -141,7 +143,7 @@ curl -sI https://therobhenry.com/blog/hello-again/
 curl -sI https://therobhenry.com/rss.xml
 ```
 
-Expect baseline headers from `_headers` on HTML/XML responses. View source on HTML pages for meta CSP.
+Expect baseline headers and **`content-security-policy`** from `_headers` on HTML responses. View source to confirm meta CSP matches (fallback).
 
 Optional: [securityheaders.com](https://securityheaders.com/?q=https://therobhenry.com) — meta CSP may score differently than header-delivered CSP.
 
@@ -152,7 +154,7 @@ Optional: [securityheaders.com](https://securityheaders.com/?q=https://therobhen
 | Limitation | Mitigation |
 |------------|------------|
 | No CSP in dev mode | Use `npm run build && npm run preview` |
-| Cloudflare lacks `staticHeaders` | Meta CSP for now; switch to HTTP header when upstream adds support |
+| Cloudflare lacks `staticHeaders` | Post-build script writes CSP to `_headers`; remove when adapter adds native support |
 | `frame-ancestors` not in meta | `X-Frame-Options: DENY` in `_headers` |
 | Shiki syntax highlighting incompatible with Astro CSP | Use [`<Prism />`](https://docs.astro.build/en/guides/syntax-highlighting/#prism-) if code blocks are added |
 | Astro view transitions (`<ClientRouter />`) not supported | Not used on this site |
@@ -164,6 +166,7 @@ Optional: [securityheaders.com](https://securityheaders.com/?q=https://therobhen
 | Change | Where |
 |--------|-------|
 | CSP directives | [`astro.config.mjs`](../astro.config.mjs) → `security.csp` |
+| CSP HTTP headers per route | Auto-generated by [`scripts/generate-csp-headers.mjs`](../scripts/generate-csp-headers.mjs) at build |
 | Per-page CSP | `Astro.csp?.insertDirective()` etc. in `.astro` frontmatter |
 | Baseline HTTP headers | [`public/_headers`](../public/_headers) |
 | HSTS | Cloudflare dashboard |
