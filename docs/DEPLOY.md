@@ -18,7 +18,7 @@ npm run build
 npm run preview
 ```
 
-Verify `/`, `/about`, `/blog`, `/blog/hello-again`, `/rss.xml`, and that blog hero images load (not broken `/_image` icons).
+Verify `/`, `/about`, `/blog`, `/blog/hello-again`, `/rss.xml`, and that blog hero images load (not broken `/_image` icons). Security headers and CSP: see **[SECURITY.md](SECURITY.md)**.
 
 ## Workers Builds (Git — recommended)
 
