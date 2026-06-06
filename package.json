@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate-csp-headers.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types"

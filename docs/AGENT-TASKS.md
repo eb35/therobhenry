@@ -204,7 +204,8 @@ Append newest entries at the top. Agent must update this section when executing 
 
 | Date | Task | What changed | Verified by |
 |------|------|--------------|-------------|
-| 2026-06-06 | 2 | Astro `security.csp`, `public/_headers`, `public/theme-init.js`, `docs/SECURITY.md`. **Before prod headers:** `/` had no security headers (only `server: cloudflare`, `cf-cache-status`, etc.). **Preview after:** `x-content-type-options: nosniff`, `referrer-policy`, `permissions-policy`, `x-frame-options: DENY`; meta CSP on all HTML pages. HSTS: dashboard step documented (human). PR [#9](https://github.com/eb35/therobhenry/pull/9) — prod verify after merge. | `npm run build`, `npm run preview`, `curl` preview; CI green |
+| 2026-06-06 | 2 | Follow-up: `scripts/generate-csp-headers.mjs` writes per-route `Content-Security-Policy` HTTP headers to `dist/client/_headers` (Cloudflare adapter lacks `staticHeaders`; meta-only CSP invisible to securityheaders.com). | `npm run build`, `curl -I` preview shows `content-security-policy` |
+| 2026-06-06 | 2 | Astro `security.csp`, `public/_headers`, `public/theme-init.js`, `docs/SECURITY.md`. **Before prod headers:** `/` had no security headers. **After merge #9:** baseline HTTP headers live; CSP meta in HTML only until this follow-up deploys. PR [#9](https://github.com/eb35/therobhenry/pull/9). | `npm run build`, `npm run preview`, `curl` preview; CI green |
 | 2026-06-04 | — | Created `docs/AGENT-TASKS.md` backlog (tasks 1–2, runbooks, empty log) | — |
 
 ---
