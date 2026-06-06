@@ -62,7 +62,10 @@ security: {
     ],
     scriptDirective: {
       resources: ["'self'", "https://static.cloudflareinsights.com"],
-      hashes: ["sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8="],
+      hashes: [
+          "sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8=",
+          "sha256-mjyWuIypijg1Ajeng2q5VJbB81N1/AWlqiYEh4xL/8A=",
+        ],
     },
   },
 },
@@ -78,13 +81,15 @@ Astro automatically adds per-page SHA-256 hashes for bundled scripts and scoped 
 | `connect-src 'self' https://cloudflareinsights.com` | Beacon POSTs for Cloudflare Web Analytics |
 | `base-uri 'self'` | Prevent `<base>` tag injection |
 | `form-action 'self'` | Forms (if added) must submit to same origin |
-| `script-src` (via `scriptDirective`) | `'self'`, `https://static.cloudflareinsights.com`, Astro hashes, plus manual hash for Cloudflare's injected inline bootstrap |
+| `script-src` (via `scriptDirective`) | `'self'`, `https://static.cloudflareinsights.com`, Astro hashes, plus manual hashes for Cloudflare's injected inline loaders (may be more than one) |
 
 ### Cloudflare Web Analytics
 
 [Cloudflare Web Analytics](https://developers.cloudflare.com/analytics/web-analytics/) injects scripts at the edge (`static.cloudflareinsights.com` + a small inline loader). These are **not** in the Astro repo, so they must be allowlisted manually in `scriptDirective` and `connect-src`.
 
-If the console reports a new inline-script hash after a Cloudflare change, copy the hash from the browser error into `scriptDirective.hashes` and redeploy.
+Cloudflare may inject **multiple** inline loader variants; keep every hash the browser reports in `scriptDirective.hashes` (currently two). If the console reports a new inline-script hash after a Cloudflare change, copy it from the error and redeploy.
+
+`net::ERR_BLOCKED_BY_CLIENT` on `beacon.min.js` is usually an **ad blocker or privacy extension**, not CSP — test in a private window with extensions disabled to confirm analytics works.
 
 ---
 
