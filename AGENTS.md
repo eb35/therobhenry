@@ -25,6 +25,7 @@ src/
   consts.ts             # SITE_TITLE, SITE_DESCRIPTION
 docs/WORKFLOW.md        # Git: branch → PR → merge (required for main)
 docs/DEPLOY.md          # Cloudflare Workers deploy + branch protection
+docs/SECURITY.md        # CSP + HTTP security headers (Astro csp, _headers, HSTS)
 docs/AGENT-TASKS.md     # Agent backlog: Renovate verification, security headers, progress log
 .github/workflows/ci.yml  # PR/push build check (required before protecting main)
 scripts/protect-main-branch.sh  # gh CLI: apply main branch protection

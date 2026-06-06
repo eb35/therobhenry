@@ -42,6 +42,19 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ],
+    },
+  },
+
   adapter: cloudflare({
     // Bake optimized images at build for prerendered pages; use Cloudflare Images at runtime when needed
     imageService: { build: 'compile', runtime: 'cloudflare-binding' },
