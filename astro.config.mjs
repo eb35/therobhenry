@@ -48,10 +48,14 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "connect-src 'self'",
+        "connect-src 'self' https://cloudflareinsights.com",
         "base-uri 'self'",
         "form-action 'self'",
       ],
+      scriptDirective: {
+        resources: ["'self'", "https://static.cloudflareinsights.com"],
+        hashes: ["sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8="],
+      },
     },
   },
 
