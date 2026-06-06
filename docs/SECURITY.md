@@ -56,26 +56,35 @@ security: {
       "default-src 'self'",
       "img-src 'self' data:",
       "font-src 'self'",
-      "connect-src 'self'",
+      "connect-src 'self' https://cloudflareinsights.com",
       "base-uri 'self'",
       "form-action 'self'",
     ],
+    scriptDirective: {
+      resources: ["'self'", "https://static.cloudflareinsights.com"],
+      hashes: ["sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8="],
+    },
   },
 },
 ```
 
-Astro automatically adds `script-src` and `style-src` with `'self'` plus per-page SHA-256 hashes for bundled scripts and scoped styles. Do not declare those unless overriding via `scriptDirective.resources` / `styleDirective.resources`.
+Astro automatically adds per-page SHA-256 hashes for bundled scripts and scoped styles to `script-src` / `style-src`. `scriptDirective.resources` overrides the default `script-src` sources, so `'self'` must be listed explicitly.
 
 | Directive | Rationale |
 |-----------|-----------|
 | `default-src 'self'` | Fallback: only same-origin resources |
 | `img-src 'self' data:` | Local images, `/_astro/*`, favicons; `data:` for inline SVG if needed |
 | `font-src 'self'` | Local Atkinson fonts via `astro:fonts` |
-| `connect-src 'self'` | No third-party analytics yet |
+| `connect-src 'self' https://cloudflareinsights.com` | Beacon POSTs for Cloudflare Web Analytics |
 | `base-uri 'self'` | Prevent `<base>` tag injection |
 | `form-action 'self'` | Forms (if added) must submit to same origin |
+| `script-src` (via `scriptDirective`) | `'self'`, `https://static.cloudflareinsights.com`, Astro hashes, plus manual hash for Cloudflare's injected inline bootstrap |
 
-To allow third-party scripts or embeds later, extend `directives` or use per-page [`Astro.csp`](https://docs.astro.build/en/reference/api-reference/#csp) APIs (`insertDirective`, `insertScriptResource`, etc.).
+### Cloudflare Web Analytics
+
+[Cloudflare Web Analytics](https://developers.cloudflare.com/analytics/web-analytics/) injects scripts at the edge (`static.cloudflareinsights.com` + a small inline loader). These are **not** in the Astro repo, so they must be allowlisted manually in `scriptDirective` and `connect-src`.
+
+If the console reports a new inline-script hash after a Cloudflare change, copy the hash from the browser error into `scriptDirective.hashes` and redeploy.
 
 ---
 
