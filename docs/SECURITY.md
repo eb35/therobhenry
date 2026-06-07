@@ -65,6 +65,7 @@ security: {
       hashes: [
           "sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8=",
           "sha256-mjyWuIypijg1Ajeng2q5VJbB81N1/AWlqiYEh4xL/8A=",
+          "sha256-NEjEF2iM4lUXaXqTq3013V7f2Us9JtsgdAkagbZjm0S=",
         ],
     },
   },
@@ -87,7 +88,7 @@ Astro automatically adds per-page SHA-256 hashes for bundled scripts and scoped 
 
 [Cloudflare Web Analytics](https://developers.cloudflare.com/analytics/web-analytics/) injects scripts at the edge (`static.cloudflareinsights.com` + a small inline loader). These are **not** in the Astro repo, so they must be allowlisted manually in `scriptDirective` and `connect-src`.
 
-Cloudflare may inject **multiple** inline loader variants; keep every hash the browser reports in `scriptDirective.hashes` (currently two). If the console reports a new inline-script hash after a Cloudflare change, copy it from the error and redeploy.
+Cloudflare may inject **multiple** inline loader variants; keep every hash the browser reports in `scriptDirective.hashes` (currently three). If the console reports a new inline-script hash after a Cloudflare change, copy it from the error and redeploy.
 
 `net::ERR_BLOCKED_BY_CLIENT` on `beacon.min.js` is usually an **ad blocker or privacy extension**, not CSP — test in a private window with extensions disabled to confirm analytics works.
 
