@@ -21,6 +21,14 @@ const { title, description, image = FallbackImage } = Astro.props;
 <!-- Apply theme before paint to avoid flash (CSP-safe: external same-origin script) -->
 <script is:inline src="/theme-init.js"></script>
 
+<!-- Cloudflare Web Analytics (snippet install avoids rotating inline edge injection) -->
+<script
+	is:inline
+	defer
+	src="https://static.cloudflareinsights.com/beacon.min.js"
+	data-cf-beacon='{"token":"470c8e70b1a5403c8119e3a7f45503a5"}'
+></script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />

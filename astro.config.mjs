@@ -54,11 +54,6 @@ export default defineConfig({
       ],
       scriptDirective: {
         resources: ["'self'", "https://static.cloudflareinsights.com"],
-        hashes: [
-          "sha256-4zVaEKYnR18t8lqSvrDLj/1hLH54EA4pHoB3mSd2Bz8=",
-          "sha256-mjyWuIypijg1Ajeng2q5VJbB81N1/AWlqiYEh4xL/8A=",
-          "sha256-NEjEF2iM4lUXaXqTq3013V7f2Us9JtsgdAkagbZjm0S=",
-        ],
       },
     },
   },
