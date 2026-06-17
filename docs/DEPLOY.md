@@ -60,8 +60,10 @@ After deploy, view source on `/blog`: image `src` should look like `/_astro/blog
 
 - Confirm `https://therobhenry.com/sitemap-index.xml` loads.
 - Validate RSS: https://validator.w3.org/feed/ (feed URL: `https://therobhenry.com/rss.xml`).
-- Old WordPress URLs are not redirected automatically; add rules in Cloudflare if needed later.
-- Legacy blog may live at `wordpress.therobhenry.com` (separate host; DNS-only subdomain recommended).
+- Legacy WordPress lives at **`wordpress.therobhenry.com`** (DNS-only subdomain recommended).
+- Old post URLs on the apex domain redirect to the same path on that subdomain via [`public/_redirects`](../public/_redirects) (301). Astro routes (`/`, `/about`, `/blog`, `/rss.xml`, sitemaps) are excluded.
+- Regenerate after WordPress publishes new posts: `npm run generate-redirects`, then commit and deploy.
+- Cloudflare Workers static assets apply `_redirects` at the edge — no dashboard rules required for this list.
 
 ## Ongoing workflow
 

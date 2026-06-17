@@ -1,0 +1,35 @@
+# Legacy WordPress URLs on therobhenry.com → wordpress subdomain.
+# Regenerate: npm run generate-redirects
+# Source: https://wordpress.therobhenry.com
+
+# Static redirects (posts, pages, feeds) — must appear before splat rules.
+/comments/feed https://wordpress.therobhenry.com/comments/feed 301
+/comments/feed/ https://wordpress.therobhenry.com/comments/feed/ 301
+/contact https://wordpress.therobhenry.com/contact/ 301
+/contact/ https://wordpress.therobhenry.com/contact/ 301
+/digging-in https://wordpress.therobhenry.com/digging-in/ 301
+/digging-in/ https://wordpress.therobhenry.com/digging-in/ 301
+/docker-developement-setup https://wordpress.therobhenry.com/docker-developement-setup/ 301
+/docker-developement-setup/ https://wordpress.therobhenry.com/docker-developement-setup/ 301
+/docker-punch https://wordpress.therobhenry.com/docker-punch/ 301
+/docker-punch/ https://wordpress.therobhenry.com/docker-punch/ 301
+/feed https://wordpress.therobhenry.com/feed 301
+/feed/ https://wordpress.therobhenry.com/feed/ 301
+/hello-world https://wordpress.therobhenry.com/hello-world/ 301
+/hello-world/ https://wordpress.therobhenry.com/hello-world/ 301
+/home https://wordpress.therobhenry.com/home/ 301
+/home/ https://wordpress.therobhenry.com/home/ 301
+/my-sql-workbench https://wordpress.therobhenry.com/my-sql-workbench/ 301
+/my-sql-workbench/ https://wordpress.therobhenry.com/my-sql-workbench/ 301
+/sample-page https://wordpress.therobhenry.com/sample-page/ 301
+/sample-page/ https://wordpress.therobhenry.com/sample-page/ 301
+/xmlrpc.php https://wordpress.therobhenry.com/xmlrpc.php 301
+
+# WordPress path prefixes (categories, tags, uploads, admin, API).
+/category/* https://wordpress.therobhenry.com/category/:splat 301
+/tag/* https://wordpress.therobhenry.com/tag/:splat 301
+/author/* https://wordpress.therobhenry.com/author/:splat 301
+/wp-content/* https://wordpress.therobhenry.com/wp-content/:splat 301
+/wp-includes/* https://wordpress.therobhenry.com/wp-includes/:splat 301
+/wp-admin/* https://wordpress.therobhenry.com/wp-admin/:splat 301
+/wp-json/* https://wordpress.therobhenry.com/wp-json/:splat 301

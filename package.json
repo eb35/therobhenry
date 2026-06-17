@@ -10,7 +10,8 @@
     "build": "astro build && node scripts/generate-csp-headers.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-types": "wrangler types"
+    "generate-types": "wrangler types",
+    "generate-redirects": "node scripts/generate-wp-redirects.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.4",
