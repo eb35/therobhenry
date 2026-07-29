@@ -9,3 +9,9 @@ dist/
 # Lockfile (large, rarely useful for reasoning)
 package-lock.json
 
+
+# Ephemeral Cursor assets (previews, rejects)
+.cursor/*.png
+.cursor/*.jpg
+.cursor/*.jpeg
+.cursor/*.webp

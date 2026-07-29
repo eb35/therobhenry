@@ -8,7 +8,28 @@ import ThemeToggle from './ThemeToggle.astro';
 <header class="site-header">
 	<nav class="nav-bar" aria-label="Main">
 		<h2 class="site-title">
-			<a href="/">{SITE_TITLE}</a>
+			<a href="/">
+				<svg
+					class="site-logo"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 88 36"
+					width="56"
+					height="23"
+					aria-hidden="true"
+					focusable="false"
+				>
+					<text
+						x="44"
+						y="26"
+						text-anchor="middle"
+						font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+						font-size="28"
+						font-weight="700"
+						letter-spacing="1"
+						fill="currentColor">[RH]</text>
+				</svg>
+				<span class="site-title-text">{SITE_TITLE}</span>
+			</a>
 		</h2>
 
 		<div class="nav-desktop">
@@ -119,9 +140,22 @@ import ThemeToggle from './ThemeToggle.astro';
 	}
 
 	.site-title a {
-		display: block;
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		min-width: 0;
 		text-decoration: none;
 		color: rgb(var(--black));
+	}
+
+	.site-logo {
+		flex-shrink: 0;
+		display: block;
+		color: var(--accent);
+	}
+
+	.site-title-text {
+		min-width: 0;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
