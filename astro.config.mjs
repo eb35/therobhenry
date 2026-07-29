@@ -53,7 +53,10 @@ export default defineConfig({
         "form-action 'self'",
       ],
       scriptDirective: {
-        resources: ["'self'"],
+        // Fixed nonce: Cloudflare JavaScript Detections injects a rotating inline
+        // script and stamps this nonce from the CSP *HTTP* header onto it.
+        // Site scripts still rely on Astro-generated hashes; this only unblocks CF.
+        resources: ["'self'", "'nonce-therobhenry-cfjsd'"],
       },
     },
   },

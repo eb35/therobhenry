@@ -204,6 +204,7 @@ Append newest entries at the top. Agent must update this section when executing 
 
 | Date | Task | What changed | Verified by |
 |------|------|--------------|-------------|
+| 2026-07-29 | 2 | Allow Cloudflare JS Detections inject via fixed CSP nonce (`nonce-therobhenry-cfjsd`); document Bot Fight Mode / JSD interaction. | `npm run build` |
 | 2026-07-29 | 2 | Disable Cloudflare Web Analytics: remove BaseHead beacon snippet; drop Insights hosts from CSP; document dashboard disable. | `npm run build` |
 | 2026-06-06 | 2 | Allow Cloudflare Web Analytics in CSP (`static.cloudflareinsights.com`, `cloudflareinsights.com`, inline loader hash). | `npm run build` |
 | 2026-06-06 | 2 | Follow-up: `scripts/generate-csp-headers.mjs` writes per-route `Content-Security-Policy` HTTP headers to `dist/client/_headers` (Cloudflare adapter lacks `staticHeaders`; meta-only CSP invisible to securityheaders.com). | `npm run build`, `curl -I` preview shows `content-security-policy` |
