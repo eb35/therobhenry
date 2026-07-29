@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 100 100">
+  <title>therobhenry.com</title>
+  <desc>Rob Henry two-tone R logo on teal</desc>
+  <rect x="0" y="0" width="100" height="100" fill="#0d6e6e"/>
+  <path
+    fill="#ffffff"
+    fill-rule="evenodd"
+    d="M22.125 17.5h29c14.75 0 25.5 9.625 25.5 20.875c0 11.25-10.75 20.875-25.5 20.875H37.875V82.5H22.125V17.5zM37.875 28.375v13.25h11.75c7.375 0 12.625-4.25 12.625-6.625c0-2.375-5.25-6.625-12.625-6.625H37.875z"
+  />
+  <path fill="#3dd6d0" d="M40.125 53.375h13.375L77.875 82.5h-17.5z"/>
+</svg>
