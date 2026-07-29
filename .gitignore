@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # Cloudflare Wrangler local state
 .wrangler/
+
+# Cursor ephemeral local files (keep .cursor/rules and mcp.json tracked)
+.cursor/*.png
+.cursor/*.jpg
+.cursor/*.jpeg
+.cursor/*.webp

@@ -1,4 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#0d6e6e"/>
-  <text x="16" y="22" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#fff">RH</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="R">
+  <!-- Transparent. Menlo-like R: white stem+bowl, cyan leg -->
+  <path
+    fill="#ffffff"
+    fill-rule="evenodd"
+    d="
+      M6.2 3
+      h11.6
+      c5.9 0 10.2 3.85 10.2 8.35
+      c0 4.5 -4.3 8.35 -10.2 8.35
+      H12.5
+      V29
+      H6.2
+      V3
+      z
+      M12.5 7.35
+      v5.3
+      h4.7
+      c2.95 0 5.05 -1.7 5.05 -2.65
+      c0 -0.95 -2.1 -2.65 -5.05 -2.65
+      H12.5
+      z
+    "
+  />
+  <path fill="#3dd6d0" d="M13.4 17.35h5.35L28.5 29h-7z"/>
 </svg>
