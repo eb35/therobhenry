@@ -61,7 +61,7 @@ security: {
       "form-action 'self'",
     ],
     scriptDirective: {
-      resources: ["'self'"],
+      resources: ["'self'", "'nonce-therobhenry-cfjsd'"],
     },
   },
 },
@@ -77,15 +77,21 @@ Astro automatically adds per-page SHA-256 hashes for bundled scripts and styles 
 | `connect-src 'self'` | Same-origin fetches only (no third-party beacons) |
 | `base-uri 'self'` | Prevent `<base>` tag injection |
 | `form-action 'self'` | Forms (if added) must submit to same origin |
-| `script-src` (via `scriptDirective`) | `'self'`, plus Astro-generated hashes for site scripts |
+| `script-src` (via `scriptDirective`) | `'self'`, Astro hashes for site scripts, plus a fixed nonce for Cloudflare edge injection |
+
+### Cloudflare JavaScript Detections (CSP nonce)
+
+Cloudflare may inject a rotating inline challenge script (`__CF$cv$params` / `/cdn-cgi/challenge-platform/...`) even when Web Analytics is off. Hashes cannot allow it (content changes per request). Cloudflare’s supported workaround is a **nonce in the CSP HTTP header**; the edge copies that nonce onto the injected `<script>`.
+
+This site includes `'nonce-therobhenry-cfjsd'` in `script-src`. Site JS still uses Astro hashes; the nonce exists only so Cloudflare’s inject is allowed. Prefer disabling **JavaScript Detections** / Bot Fight Mode when possible (Security → Bots); the nonce remains for cases where the inject cannot be turned off.
+
+Cloudflare reads the nonce from the **HTTP** `Content-Security-Policy` header (from `_headers`), not from the HTML `<meta>` tag alone.
 
 ### Cloudflare Web Analytics (disabled)
 
 Cloudflare Web Analytics is **not** installed in this repo. CSP does not allow `static.cloudflareinsights.com` or `cloudflareinsights.com`.
 
-If console shows CSP violations for an inline Cloudflare Insights loader or `beacon.min.js` requests, **disable Web Analytics / JS beacon injection in the Cloudflare dashboard** (zone → Analytics & logs → Web Analytics, or Automatic Setup). Edge auto-injection uses rotating inline script hashes that cannot stay compatible with enforced CSP.
-
-Do **not** re-enable dashboard auto-injection while CSP is enforced. If analytics are needed later, prefer a fixed explicit snippet in [`BaseHead.astro`](../src/components/BaseHead.astro) plus matching `script-src` / `connect-src` allowances — or use Cloudflare's privacy-friendly zone analytics (no client JS).
+Do **not** re-enable dashboard Web Analytics auto-injection while CSP is enforced. If analytics are needed later, prefer a fixed explicit snippet in [`BaseHead.astro`](../src/components/BaseHead.astro) plus matching `script-src` / `connect-src` allowances — or use Cloudflare's privacy-friendly zone analytics (no client JS).
 
 ---
 
