@@ -56,45 +56,36 @@ security: {
       "default-src 'self'",
       "img-src 'self' data:",
       "font-src 'self'",
-      "connect-src 'self' https://cloudflareinsights.com",
+      "connect-src 'self'",
       "base-uri 'self'",
       "form-action 'self'",
     ],
     scriptDirective: {
-      resources: ["'self'", "https://static.cloudflareinsights.com"],
+      resources: ["'self'"],
     },
   },
 },
 ```
 
-Astro automatically adds per-page SHA-256 hashes for bundled scripts and scoped styles to `script-src` / `style-src`. `scriptDirective.resources` overrides the default `script-src` sources, so `'self'` must be listed explicitly.
+Astro automatically adds per-page SHA-256 hashes for bundled scripts and styles to `script-src` / `style-src`. `scriptDirective.resources` overrides the default `script-src` sources, so `'self'` must be listed explicitly.
 
 | Directive | Rationale |
 |-----------|-----------|
 | `default-src 'self'` | Fallback: only same-origin resources |
 | `img-src 'self' data:` | Local images, `/_astro/*`, favicons; `data:` for inline SVG if needed |
 | `font-src 'self'` | Local Atkinson fonts via `astro:fonts` |
-| `connect-src 'self' https://cloudflareinsights.com` | Beacon POSTs for Cloudflare Web Analytics |
+| `connect-src 'self'` | Same-origin fetches only (no third-party beacons) |
 | `base-uri 'self'` | Prevent `<base>` tag injection |
 | `form-action 'self'` | Forms (if added) must submit to same origin |
-| `script-src` (via `scriptDirective`) | `'self'`, `https://static.cloudflareinsights.com`, plus Astro-generated hashes for site scripts |
+| `script-src` (via `scriptDirective`) | `'self'`, plus Astro-generated hashes for site scripts |
 
-### Cloudflare Web Analytics
+### Cloudflare Web Analytics (disabled)
 
-[Cloudflare Web Analytics](https://developers.cloudflare.com/analytics/web-analytics/) is installed with the explicit JavaScript snippet in [`BaseHead.astro`](../src/components/BaseHead.astro):
+Cloudflare Web Analytics is **not** installed in this repo. CSP does not allow `static.cloudflareinsights.com` or `cloudflareinsights.com`.
 
-```astro
-<script
-	is:inline
-	defer
-	src="https://static.cloudflareinsights.com/beacon.min.js"
-	data-cf-beacon='{"token":"..."}'
-></script>
-```
+If console shows CSP violations for an inline Cloudflare Insights loader or `beacon.min.js` requests, **disable Web Analytics / JS beacon injection in the Cloudflare dashboard** (zone → Analytics & logs → Web Analytics, or Automatic Setup). Edge auto-injection uses rotating inline script hashes that cannot stay compatible with enforced CSP.
 
-Keep Cloudflare dashboard auto-injection disabled. The auto-injected edge loader uses inline snippets whose hashes can rotate between requests, which causes enforced CSP console errors. The explicit snippet uses an external script from `static.cloudflareinsights.com`, which is allowed by `scriptDirective.resources`.
-
-`net::ERR_BLOCKED_BY_CLIENT` on `beacon.min.js` is usually an **ad blocker or privacy extension**, not CSP — test in a private window with extensions disabled to confirm analytics works.
+Do **not** re-enable dashboard auto-injection while CSP is enforced. If analytics are needed later, prefer a fixed explicit snippet in [`BaseHead.astro`](../src/components/BaseHead.astro) plus matching `script-src` / `connect-src` allowances — or use Cloudflare's privacy-friendly zone analytics (no client JS).
 
 ---
 
