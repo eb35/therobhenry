@@ -2,7 +2,7 @@
 title: 'Hello again'
 description: 'Reviving therobhenry.com with Astro, Cloudflare, and a fresh start.'
 pubDate: 'May 11 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'
+heroImage: './hero.jpg'
 ---
 
 History repeats itself. I always **want** to start a personal project using the technology that I **want** to learn. I get excited, I get started, and then I fizzle out. It usually happens due to time constraints and, just like with getting in shape, if I miss one day, it's all over. I also don't want to share a whole lot of personal information on the internet (unless I have to), so I run out of content. That happened in 2021 when I wanted to learn WordPress. I had been wanting to learn how to use it more effectively for a long time and it just happened to match up with my excitement for Docker. It was a valiant effort and I even wrote a handful of articles about it. 
