@@ -1,7 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import RecentPosts from '../components/RecentPosts.astro';
+import heroImage from '../assets/hero-homepage.jpeg';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
@@ -13,22 +16,37 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>Hi, I'm Rob.</h1>
+			<div class="hero-image">
+				<Image
+					src={heroImage}
+					width={720}
+					height={402}
+					alt=""
+					loading="eager"
+					fetchpriority="high"
+					densities={[1.5, 2]}
+				/>
+			</div>
+			<h1>Yes, <em>the</em> Rob Henry.</h1>
 			<p>
-				This is my corner of the web — a personal site and blog I'm rebuilding with
-				<a href="https://astro.build/">Astro</a> and hosting on
-				<a href="https://www.cloudflare.com/">Cloudflare</a>. I'm a web developer learning
-				new tools by shipping real things here.
+				I'm a web developer whose passionate about technology and short on time and content. 
+				What you'll find here is a collection of things that I find interesting or amusing.
 			</p>
-			<p>
-				The old blog was quiet for a while. I'm reviving it with a fresh stack and a simpler
-				layout — same domain, new chapter.
-			</p>
-			<p>
-				Read the <a href="/blog">blog</a> for occasional notes on what I'm learning, or visit
-				<a href="/about">about</a> for more context.
-			</p>
+			<RecentPosts />
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.hero-image {
+		margin: 0 0 1.5em;
+	}
+	.hero-image :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 12px;
+		box-shadow: var(--box-shadow);
+	}
+</style>

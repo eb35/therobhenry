@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	limit?: number;
+}
+
+const { limit = 3 } = Astro.props;
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, limit);
+---
+
+{
+	posts.length > 0 && (
+		<section class="recent-posts" aria-labelledby="recent-posts-heading">
+			<div class="heading-row">
+				<h2 id="recent-posts-heading">Recent posts</h2>
+				<a class="all-posts" href="/blog/">
+					All posts →
+				</a>
+			</div>
+			<ul class="tiles">
+				{posts.map((post) => (
+					<li>
+						<a href={`/blog/${post.id}/`} class="tile">
+							<span class="meta">
+								<FormattedDate date={post.data.pubDate} />
+							</span>
+							<span class="title">{post.data.title}</span>
+							{post.data.description && (
+								<span class="description">{post.data.description}</span>
+							)}
+							{post.data.heroImage && (
+								<span class="media">
+									<Image
+										src={post.data.heroImage}
+										width={480}
+										height={240}
+										alt=""
+										densities={[1.5, 2]}
+									/>
+								</span>
+							)}
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	)
+}
+
+<style>
+	.recent-posts {
+		margin-top: 2.5em;
+	}
+	.heading-row {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		margin-bottom: 1rem;
+	}
+	.heading-row h2 {
+		margin: 0;
+		font-size: 1.563rem;
+	}
+	.all-posts {
+		flex-shrink: 0;
+		font-size: 0.95rem;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+	.tiles {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+		align-items: start;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.tiles > li {
+		min-width: 0;
+	}
+	.tile {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		padding: 1.25rem;
+		text-decoration: none;
+		color: inherit;
+		background: rgb(var(--surface-header));
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 14px;
+		box-shadow: 0 1px 2px rgba(var(--gray), 12%);
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease,
+			transform 0.2s ease;
+	}
+	.tile:hover {
+		border-color: var(--accent);
+		box-shadow: var(--box-shadow);
+		transform: translateY(-2px);
+	}
+	.meta {
+		display: block;
+		margin-bottom: 0.65rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	.title {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-size: 1.25rem;
+		font-weight: 700;
+		line-height: 1.25;
+		color: rgb(var(--black));
+	}
+	.tile:hover .title {
+		color: var(--accent);
+	}
+	.description {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		overflow: hidden;
+		margin-bottom: 1rem;
+		font-size: 0.95rem;
+		line-height: 1.45;
+		color: rgb(var(--gray));
+	}
+	.media {
+		display: block;
+		flex-shrink: 0;
+		width: 100%;
+		margin-top: auto;
+		aspect-ratio: 2 / 1;
+		overflow: hidden;
+		border-radius: 10px;
+	}
+	.media :global(img) {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+	}
+	@media (min-width: 541px) {
+		.heading-row {
+			flex-direction: row;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 1rem;
+		}
+		.tiles {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			align-items: stretch;
+		}
+		.tile {
+			height: 100%;
+		}
+	}
+</style>
