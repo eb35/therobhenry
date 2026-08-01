@@ -6,8 +6,9 @@ alwaysApply: false
 
 # Blog posts
 
-- Add Markdown (or MDX) files under `src/content/blog/`.
-- Filename becomes the URL slug: `my-topic.md` → `/blog/my-topic`.
+- Add each post as a folder under `src/content/blog/<slug>/` with `index.md` (or `index.mdx`) plus any images for that post.
+- Folder name becomes the URL slug: `my-topic/index.md` → `/blog/my-topic`.
+- Colocate images in the same folder (e.g. `hero.png`) and reference them with relative paths.
 - Required frontmatter (see `src/content.config.ts`):
 
 ```yaml
@@ -15,10 +16,11 @@ alwaysApply: false
 title: 'Post title'
 description: 'One-line summary for SEO and listings'
 pubDate: 'May 11 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'  # optional
+heroImage: './hero.png'  # optional; path relative to this post folder
 updatedDate: 'May 12 2026'  # optional
 ---
 ```
 
+- Keep site-wide assets (logo, fonts, shared placeholders) in `src/assets/`; do not put post-specific images there.
 - Run `npm run dev` and check `/blog`, the post URL, and `/rss.xml`.
 - Keep voice consistent with existing posts: practical, first-person, learning-in-public.

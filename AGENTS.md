@@ -18,7 +18,7 @@ Personal site and blog for **Rob Henry** at **https://therobhenry.com**. Rebuilt
 public/                 # favicon.svg, static assets
 src/
   components/           # Header, Footer, BaseHead, …
-  content/blog/         # Blog posts (Markdown/MDX)
+  content/blog/         # Blog posts: <slug>/index.md + colocated images
   layouts/              # BlogPost.astro
   pages/                # index, about, blog/, rss.xml.js
   styles/global.css
@@ -48,9 +48,9 @@ wrangler.jsonc
 ## Content collections
 
 - Collection: `blog` in `src/content.config.ts`
-- Posts: `src/content/blog/**/*.{md,mdx}`
+- Posts: `src/content/blog/<slug>/index.{md,mdx}` with images colocated in the same folder
 - Schema: `title`, `description`, `pubDate`, optional `updatedDate`, optional `heroImage`
-- Slug = filename without extension (e.g. `hello-again.md` → `/blog/hello-again`)
+- Slug = folder name (e.g. `hello-again/index.md` → `/blog/hello-again`)
 
 ## Commands
 

@@ -2,7 +2,7 @@
 title: 'Cover Your Tracks'
 description: 'What does your browser tell the world?'
 pubDate: 'July 27 2026'
-heroImage: '../../assets/cover-your-tracks.png'
+heroImage: './hero.png'
 ---
 
 I'm always interested in web technology and it's never boring. We all know that we're being tracked when we browse, so we take precautions. But by the time we learn *what* those precautions **should** be, they've already moved onto something else.
