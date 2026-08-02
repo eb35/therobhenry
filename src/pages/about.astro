@@ -1,5 +1,5 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import AboutHeroImage from '../assets/hero-about.png';
 import { SOCIAL_LINKS } from '../consts';
 import Layout from '../layouts/BlogPost.astro';
 ---
@@ -11,27 +11,24 @@ import Layout from '../layouts/BlogPost.astro';
 	heroImage={AboutHeroImage}
 >
 	<p>
-		I'm Rob Henry — a web developer who has spent years in the Microsoft ecosystem (.NET, ASP.NET
-		MVC, Umbraco) and keeps stretching into whatever the rest of the stack is doing. This site is
-		where I practice that in public: small experiments, notes, and the occasional post when
-		something clicks.
+		I'm Rob Henry — a southern boy who moved up north and became a web developer. I spent years in the 
+		Microsoft ecosystem (.NET, ASP.NET MVC, Umbraco). The only problem with that is that it's not as 
+		exciting as the rest of the technologies that are out there, unless you stay that small "hype circle". 
+		I latched onto WordPress for a little while, because I wanted to learn it and possibly use that 
+		knowledge for side gigs. But I dropped all that when I learned about Astro. I spent my <em>spare</em> 
+		time learning it, but <strong>even</strong> that started to wane. <strong>Then</strong> I started 
+		learning about Cloudflare and all the magic that it can do. <strong>Then</strong> Cloudflare acquired Astro. 
+		<strong>Then</strong> I kept seeing the amazing things that people can build with AI.
 	</p>
-
 	<p>
-		<strong>What this site is.</strong> A personal home on the internet and a blog I update when I
-		have something worth writing down — often about tools, workflows, or lessons from building
-		things. It is not a portfolio agency site; it is a learning log that happens to be readable.
+		I finally decided that I'm going to create a new Astro site, host it on Cloudflare, and not worry about
+		making content. I will add posts when I have something to say, but I'm not going to force it. I will
+		work on the projects that I want to work on, and write about them if I find that there is something to say.
+		That's what this site is for.
 	</p>
-
 	<p>
-		<strong>Why rebuild?</strong> The previous therobhenry.com ran on WordPress for years. I'm
-		moving to Astro with content in Markdown, deploying through Cloudflare, and using Cursor to
-		iterate. The goal is a fast, low-maintenance site I enjoy editing.
-	</p>
-
-	<p>
-		If you find something useful here, I'd love to hear it. Comments may come later; for now, find
-		me on{' '}
+		As mentioned before, this site is for me, but I'm not greedy. If you find something useful here, I'd love 
+		to hear it. Comments may come later; for now, find me on{' '}
 		{
 			SOCIAL_LINKS.map((link, index) => (
 				<>
