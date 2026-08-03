@@ -24,22 +24,27 @@ const posts = (await getCollection('blog'))
 				</a>
 			</div>
 			<ul class="tiles">
-				{posts.map((post) => (
-					<li>
-						<a href={`/blog/${post.id}/`} class="tile">
-							<span class="meta">
-								<FormattedDate date={post.data.pubDate} />
+				{posts.map((post, index) => (
+					<li class:list={{ featured: index === 0 }}>
+						<a
+							href={`/blog/${post.id}/`}
+							class:list={['tile', { featured: index === 0 }]}
+						>
+							<span class="copy">
+								<span class="meta">
+									<FormattedDate date={post.data.pubDate} />
+								</span>
+								<span class="title">{post.data.title}</span>
+								{post.data.description && (
+									<span class="description">{post.data.description}</span>
+								)}
 							</span>
-							<span class="title">{post.data.title}</span>
-							{post.data.description && (
-								<span class="description">{post.data.description}</span>
-							)}
 							{post.data.heroImage && (
 								<span class="media">
 									<Image
 										src={post.data.heroImage}
-										width={480}
-										height={240}
+										width={index === 0 ? 720 : 480}
+										height={index === 0 ? 360 : 240}
 										alt=""
 										densities={[1.5, 2]}
 									/>
@@ -84,6 +89,7 @@ const posts = (await getCollection('blog'))
 		padding: 0;
 	}
 	.tiles > li {
+		display: block;
 		min-width: 0;
 	}
 	.tile {
@@ -106,6 +112,11 @@ const posts = (await getCollection('blog'))
 		border-color: var(--accent);
 		box-shadow: var(--box-shadow);
 		transform: translateY(-2px);
+	}
+	.copy {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
 	}
 	.meta {
 		display: block;
@@ -167,6 +178,32 @@ const posts = (await getCollection('blog'))
 		}
 		.tile {
 			height: 100%;
+		}
+		/* Grid items are the <li>s — span must be on the list item, not the link */
+		.tiles > li:first-child {
+			grid-column: 1 / -1;
+		}
+		.tiles > li:first-child .tile {
+			flex-direction: row;
+			align-items: center;
+			gap: 1.25rem;
+			height: auto;
+		}
+		.tiles > li:first-child .copy {
+			flex: 1;
+			justify-content: center;
+		}
+		.tiles > li:first-child .title {
+			font-size: 1.4rem;
+		}
+		.tiles > li:first-child .description {
+			-webkit-line-clamp: 4;
+			line-clamp: 4;
+			margin-bottom: 0;
+		}
+		.tiles > li:first-child .media {
+			width: 42%;
+			margin-top: 0;
 		}
 	}
 </style>
