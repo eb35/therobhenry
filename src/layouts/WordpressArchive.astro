@@ -38,30 +38,32 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 				<p class="archive-notice">
 					This is a frozen snapshot of the old blog. These posts are not updated.
 				</p>
-				<div class="site-branding">
-					{
-						home ? (
-							<h1 class="site-title">
-								<a href="/wordpress/">therobhenry.com</a>
-							</h1>
-						) : (
-							<p class="site-title">
-								<a href="/wordpress/">therobhenry.com</a>
-							</p>
-						)
-					}
-					<p class="site-description">A Blog for Me</p>
+				<div class="site-header-bar">
+					<div class="site-branding">
+						{
+							home ? (
+								<h1 class="site-title">
+									<a href="/wordpress/">therobhenry.com</a>
+								</h1>
+							) : (
+								<p class="site-title">
+									<a href="/wordpress/">therobhenry.com</a>
+								</p>
+							)
+						}
+						<p class="site-description">A Blog for Me</p>
+					</div>
+					<nav class="primary-navigation" aria-label="Archive">
+						<ul>
+							<li>
+								<a href="/wordpress/" aria-current={home ? 'page' : undefined}>Home</a>
+							</li>
+							<li>
+								<a href="/">Current site</a>
+							</li>
+						</ul>
+					</nav>
 				</div>
-				<nav class="primary-navigation" aria-label="Archive">
-					<ul>
-						<li>
-							<a href="/wordpress/" aria-current={home ? 'page' : undefined}>Home</a>
-						</li>
-						<li>
-							<a href="/">Current site</a>
-						</li>
-					</ul>
-				</nav>
 				<button type="button" id="wp-dark-mode" aria-pressed="false">
 					Dark Mode:<span aria-hidden="true"></span>
 				</button>
