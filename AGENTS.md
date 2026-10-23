@@ -43,6 +43,8 @@ wrangler.jsonc
 | `/about` | `src/pages/about.astro` |
 | `/blog` | `src/pages/blog/index.astro` |
 | `/blog/*` | `src/pages/blog/[...slug].astro` |
+| `/wordpress` | `src/pages/wordpress/index.astro` |
+| `/wordpress/*` | `src/pages/wordpress/[...slug].astro` |
 | `/rss.xml` | `src/pages/rss.xml.js` |
 
 ## Content collections
@@ -51,6 +53,7 @@ wrangler.jsonc
 - Posts: `src/content/blog/<slug>/index.{md,mdx}` with images colocated in the same folder
 - Schema: `title`, `description`, `pubDate`, optional `updatedDate`, optional `heroImage`
 - Slug = folder name (e.g. `hello-again/index.md` → `/blog/hello-again`)
+- Collection: `wordpress` in `src/content.config.ts` — frozen snapshot of the old WordPress posts at `/wordpress`. Not included in `/blog` or the RSS feed.
 
 ## Commands
 

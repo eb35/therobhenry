@@ -1,0 +1,101 @@
+---
+import type { ImageMetadata } from 'astro';
+import '../styles/wordpress.css';
+
+interface Props {
+	title: string;
+	description: string;
+	home?: boolean;
+	image?: ImageMetadata;
+}
+
+const { title, description, home = false, image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" class="wp-archive no-js">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline src="/wordpress-theme-init.js"></script>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="canonical" href={canonicalURL} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<meta property="og:type" content={home ? 'website' : 'article'} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{image && <meta property="og:image" content={new URL(image.src, Astro.site)} />}
+	</head>
+	<body>
+		<div class="wp-page">
+			<a class="skip screen-reader-text" href="#content">Skip to content</a>
+			<header class="site-header">
+				<p class="archive-notice">
+					This is a frozen snapshot of the old blog. These posts are not updated.
+				</p>
+				<div class="site-branding">
+					{
+						home ? (
+							<h1 class="site-title">
+								<a href="/wordpress/">therobhenry.com</a>
+							</h1>
+						) : (
+							<p class="site-title">
+								<a href="/wordpress/">therobhenry.com</a>
+							</p>
+						)
+					}
+					<p class="site-description">A Blog for Me</p>
+				</div>
+				<nav class="primary-navigation" aria-label="Archive">
+					<ul>
+						<li>
+							<a href="/wordpress/" aria-current={home ? 'page' : undefined}>Home</a>
+						</li>
+						<li>
+							<a href="/">Current site</a>
+						</li>
+					</ul>
+				</nav>
+				<button type="button" id="wp-dark-mode" aria-pressed="false">
+					Dark Mode:<span aria-hidden="true"></span>
+				</button>
+			</header>
+			<main id="content">
+				<slot />
+			</main>
+			<footer class="site-footer">
+				<p class="site-name">therobhenry.com</p>
+				<p class="powered-by">
+					Proudly powered by <a href="https://wordpress.org/">WordPress</a>.
+				</p>
+			</footer>
+		</div>
+		<script>
+			const toggle = document.getElementById('wp-dark-mode');
+			const storageKey = 'wordpressArchiveTheme';
+
+			function applyTheme(dark: boolean) {
+				document.documentElement.classList.toggle('is-dark-theme', dark);
+				toggle?.setAttribute('aria-pressed', String(dark));
+			}
+
+			applyTheme(document.documentElement.classList.contains('is-dark-theme'));
+
+			toggle?.addEventListener('click', () => {
+				const dark = toggle.getAttribute('aria-pressed') !== 'true';
+				try {
+					localStorage.setItem(storageKey, dark ? 'dark' : 'light');
+				} catch {
+					/* Ignore storage failures and still flip the theme for this view. */
+				}
+				applyTheme(dark);
+			});
+		</script>
+	</body>
+</html>

@@ -1,4 +1,5 @@
-# Legacy WordPress URLs on therobhenry.com → wordpress subdomain.
+# Archived WordPress posts → /wordpress/<slug> on this site.
+# Other legacy WordPress URLs on therobhenry.com → wordpress subdomain.
 # Regenerate: npm run generate-redirects
 # Source: https://wordpress.therobhenry.com
 
@@ -7,20 +8,20 @@
 /comments/feed/ https://wordpress.therobhenry.com/comments/feed/ 301
 /contact https://wordpress.therobhenry.com/contact/ 301
 /contact/ https://wordpress.therobhenry.com/contact/ 301
-/digging-in https://wordpress.therobhenry.com/digging-in/ 301
-/digging-in/ https://wordpress.therobhenry.com/digging-in/ 301
-/docker-developement-setup https://wordpress.therobhenry.com/docker-developement-setup/ 301
-/docker-developement-setup/ https://wordpress.therobhenry.com/docker-developement-setup/ 301
-/docker-punch https://wordpress.therobhenry.com/docker-punch/ 301
-/docker-punch/ https://wordpress.therobhenry.com/docker-punch/ 301
+/digging-in /wordpress/digging-in/ 301
+/digging-in/ /wordpress/digging-in/ 301
+/docker-developement-setup /wordpress/docker-developement-setup/ 301
+/docker-developement-setup/ /wordpress/docker-developement-setup/ 301
+/docker-punch /wordpress/docker-punch/ 301
+/docker-punch/ /wordpress/docker-punch/ 301
 /feed https://wordpress.therobhenry.com/feed 301
 /feed/ https://wordpress.therobhenry.com/feed/ 301
-/hello-world https://wordpress.therobhenry.com/hello-world/ 301
-/hello-world/ https://wordpress.therobhenry.com/hello-world/ 301
+/hello-world /wordpress/hello-world/ 301
+/hello-world/ /wordpress/hello-world/ 301
 /home https://wordpress.therobhenry.com/home/ 301
 /home/ https://wordpress.therobhenry.com/home/ 301
-/my-sql-workbench https://wordpress.therobhenry.com/my-sql-workbench/ 301
-/my-sql-workbench/ https://wordpress.therobhenry.com/my-sql-workbench/ 301
+/my-sql-workbench /wordpress/my-sql-workbench/ 301
+/my-sql-workbench/ /wordpress/my-sql-workbench/ 301
 /sample-page https://wordpress.therobhenry.com/sample-page/ 301
 /sample-page/ https://wordpress.therobhenry.com/sample-page/ 301
 /xmlrpc.php https://wordpress.therobhenry.com/xmlrpc.php 301

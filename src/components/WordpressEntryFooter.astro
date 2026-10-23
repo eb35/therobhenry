@@ -1,0 +1,27 @@
+---
+import { formatArchiveDate } from '../lib/archive-date';
+
+interface Props {
+	pubDate: Date;
+	categories: string[];
+	tags: string[];
+}
+
+const { pubDate, categories, tags } = Astro.props;
+---
+
+<footer class="entry-footer">
+	<span class="posted-on">
+		Published <time datetime={pubDate.toISOString()}>{formatArchiveDate(pubDate)}</time>
+	</span>
+	{
+		(categories.length > 0 || tags.length > 0) && (
+			<div class="post-taxonomies">
+				{categories.length > 0 && (
+					<span class="cat-links">Categorized as {categories.join(', ')}</span>
+				)}
+				{tags.length > 0 && <span class="tags-links">Tagged {tags.join(', ')}</span>}
+			</div>
+		)
+	}
+</footer>
