@@ -1,0 +1,328 @@
+/*
+  Archive section styled after Twenty Twenty-One (mint canvas, system font,
+  uppercase site title). Scoped to html.wp-archive so the live site is unchanged.
+*/
+
+html.wp-archive {
+	--wp-bg: #d1e4dd;
+	--wp-text: #28303d;
+	--wp-secondary: #39414d;
+	--wp-code-bg: rgba(255, 255, 255, 0.55);
+	--wp-code-border: rgba(40, 48, 61, 0.18);
+	color-scheme: light;
+	background: var(--wp-bg);
+	color: var(--wp-text);
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+		'Helvetica Neue', sans-serif;
+	font-size: 1.25rem;
+	line-height: 1.7;
+}
+
+html.wp-archive.is-dark-theme {
+	--wp-bg: #28303d;
+	--wp-text: #f0f0f0;
+	--wp-secondary: #f0f0f0;
+	--wp-code-bg: rgba(0, 0, 0, 0.28);
+	--wp-code-border: rgba(240, 240, 240, 0.22);
+	color-scheme: dark;
+}
+
+html.wp-archive body {
+	margin: 0;
+	background: var(--wp-bg);
+	color: var(--wp-text);
+}
+
+html.wp-archive a {
+	color: inherit;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
+}
+
+html.wp-archive .screen-reader-text {
+	border: 0;
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
+}
+
+html.wp-archive .screen-reader-text:focus {
+	clip-path: none;
+	height: auto;
+	width: auto;
+	margin: 0;
+	padding: 0.5rem 0.75rem;
+	position: static;
+	background: var(--wp-bg);
+}
+
+html.wp-archive .wp-page {
+	width: min(1240px, calc(100% - 4rem));
+	margin: 0 auto;
+	padding-bottom: 5rem;
+}
+
+html.wp-archive .site-header {
+	padding: 1.75rem 0 0.5rem;
+	text-align: left;
+}
+
+html.wp-archive .archive-notice {
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	font-size: 0.875rem;
+	line-height: 1.4;
+	color: var(--wp-secondary);
+}
+
+html.wp-archive .site-header-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem 2.5rem;
+}
+
+html.wp-archive .site-title {
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.2;
+	text-transform: uppercase;
+}
+
+html.wp-archive .site-title a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+}
+
+html.wp-archive .site-description {
+	margin: 0.2rem 0 0;
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+html.wp-archive .primary-navigation ul {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.35rem 1.75rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+html.wp-archive .primary-navigation a {
+	font-size: 1.125rem;
+	text-decoration: none;
+}
+
+html.wp-archive .primary-navigation a:hover,
+html.wp-archive .primary-navigation a[aria-current='page'] {
+	text-decoration: underline;
+}
+
+html.wp-archive .archive-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+html.wp-archive .archive-list > li + li {
+	margin-top: 4rem;
+}
+
+html.wp-archive .entry-title {
+	margin: 1.75rem 0 0.75em;
+	font-size: 2.25rem;
+	font-weight: 400;
+	line-height: 1.15;
+}
+
+html.wp-archive h1.entry-title {
+	font-size: 2.75rem;
+	line-height: 1.1;
+}
+
+html.wp-archive .entry-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+html.wp-archive .entry-title a:hover {
+	text-decoration: underline;
+}
+
+html.wp-archive .hero {
+	width: 100%;
+	margin: 0 0 1.25rem;
+}
+
+html.wp-archive .hero img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 0;
+}
+
+html.wp-archive .hero figcaption {
+	margin: 0.75rem auto 0;
+	font-size: 1rem;
+	line-height: 1.4;
+	text-align: center;
+	color: var(--wp-secondary);
+}
+
+html.wp-archive .excerpt,
+html.wp-archive .entry-content,
+html.wp-archive .entry-footer {
+	max-width: 610px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+html.wp-archive .excerpt {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+html.wp-archive .entry-content > :first-child {
+	margin-top: 0;
+}
+
+html.wp-archive .entry-content p {
+	margin: 0 0 1.25rem;
+}
+
+html.wp-archive .entry-content pre {
+	margin: 0 0 1.25rem;
+	padding: 1rem 1.15rem;
+	overflow-x: auto;
+	background: var(--wp-code-bg);
+	border: 1px solid var(--wp-code-border);
+	font-size: 0.85em;
+	line-height: 1.5;
+}
+
+html.wp-archive .entry-content code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	font-size: 0.85em;
+}
+
+html.wp-archive .entry-content pre code {
+	font-size: 1em;
+}
+
+html.wp-archive .entry-footer {
+	margin-top: 1.5rem;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+html.wp-archive .post-taxonomies {
+	margin-top: 0.2rem;
+}
+
+html.wp-archive .tags-links {
+	margin-left: 0.75rem;
+}
+
+html.wp-archive .site-footer {
+	margin-top: 3rem;
+	padding-top: 1.5rem;
+	text-align: center;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+html.wp-archive .site-name,
+html.wp-archive .powered-by {
+	margin: 0;
+}
+
+html.wp-archive.no-js #wp-dark-mode {
+	display: none;
+}
+
+html.wp-archive #wp-dark-mode {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: max-content;
+	min-height: 44px;
+	margin: 1.25rem auto 0;
+	padding: 0.5em 0.75em;
+	border: 2px solid currentColor;
+	background: var(--wp-bg);
+	color: var(--wp-text);
+	font: inherit;
+	font-size: 0.75rem;
+	line-height: 1.2;
+	cursor: pointer;
+}
+
+html.wp-archive #wp-dark-mode span {
+	margin-left: 0.35em;
+}
+
+html.wp-archive #wp-dark-mode span::before {
+	content: 'Off';
+}
+
+html.wp-archive #wp-dark-mode[aria-pressed='true'] span::before {
+	content: 'On';
+}
+
+@media (max-width: 651px) {
+	html.wp-archive .site-header-bar {
+		align-items: flex-start;
+	}
+
+	html.wp-archive .primary-navigation ul {
+		justify-content: flex-start;
+		margin-top: 0.25rem;
+	}
+}
+
+@media (min-width: 652px) {
+	html.wp-archive .site-header {
+		padding-top: 4.5rem;
+	}
+
+	html.wp-archive .site-title {
+		font-size: 1.5rem;
+	}
+
+	html.wp-archive h1.entry-title {
+		font-size: 4rem;
+	}
+
+	html.wp-archive h2.entry-title {
+		font-size: 2.5rem;
+	}
+}
+
+@media (min-width: 822px) {
+	html.wp-archive h1.entry-title {
+		font-size: 6rem;
+	}
+}
+
+@media (min-width: 960px) {
+	html.wp-archive #wp-dark-mode {
+		position: fixed;
+		right: 5px;
+		bottom: 5px;
+		z-index: 20;
+		margin: 0;
+	}
+}

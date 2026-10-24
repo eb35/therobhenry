@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import WordpressEntryFooter from '../../components/WordpressEntryFooter.astro';
+import WordpressArchive from '../../layouts/WordpressArchive.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('wordpress');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'wordpress'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<WordpressArchive
+	title={`${post.data.title} - therobhenry.com`}
+	description={post.data.description}
+	image={post.data.heroImage}
+>
+	<article>
+		<header>
+			<h1 class="entry-title">{post.data.title}</h1>
+		</header>
+		<figure class="hero">
+			<Image
+				src={post.data.heroImage}
+				width={post.data.heroImage.width}
+				height={post.data.heroImage.height}
+				alt={post.data.heroAlt}
+			/>
+			{post.data.heroCaption && <figcaption set:html={post.data.heroCaption} />}
+		</figure>
+		<div class="entry-content">
+			<Content />
+		</div>
+		<WordpressEntryFooter
+			pubDate={post.data.pubDate}
+			categories={post.data.categories}
+			tags={post.data.tags}
+		/>
+	</article>
+</WordpressArchive>

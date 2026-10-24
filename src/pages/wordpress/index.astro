@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import WordpressEntryFooter from '../../components/WordpressEntryFooter.astro';
+import WordpressArchive from '../../layouts/WordpressArchive.astro';
+
+const posts = (await getCollection('wordpress')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<WordpressArchive
+	title="therobhenry.com - A Blog for Me"
+	description="A frozen snapshot of the old therobhenry.com WordPress blog."
+	home
+	image={posts[0]?.data.heroImage}
+>
+	<ol class="archive-list">
+		{
+			posts.map((post, index) => (
+				<li>
+					<article>
+						<h2 class="entry-title">
+							<a href={`/wordpress/${post.id}/`}>{post.data.title}</a>
+						</h2>
+						<figure class="hero">
+							<a href={`/wordpress/${post.id}/`}>
+								<Image
+									src={post.data.heroImage}
+									width={post.data.heroImage.width}
+									height={post.data.heroImage.height}
+									alt={post.data.heroAlt || post.data.title}
+									loading={index === 0 ? 'eager' : 'lazy'}
+								/>
+							</a>
+							{post.data.heroCaption && <figcaption set:html={post.data.heroCaption} />}
+						</figure>
+						<p class="excerpt">
+							{post.data.description}{' '}
+							<a class="more-link" href={`/wordpress/${post.id}/`}>
+								Continue reading <span class="screen-reader-text">{post.data.title}</span>
+							</a>
+						</p>
+						<WordpressEntryFooter
+							pubDate={post.data.pubDate}
+							categories={post.data.categories}
+							tags={post.data.tags}
+						/>
+					</article>
+				</li>
+			))
+		}
+	</ol>
+</WordpressArchive>

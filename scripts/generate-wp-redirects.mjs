@@ -1,8 +1,9 @@
 /**
  * Generate public/_redirects for legacy WordPress URLs on therobhenry.com.
  *
- * Fetches posts and pages from wordpress.therobhenry.com and writes 301 redirects
- * to the same path on the WordPress subdomain. Astro-owned paths are skipped.
+ * Fetches posts and pages from wordpress.therobhenry.com and writes 301 redirects.
+ * The five archived posts go to /wordpress/<slug> on this site. Everything else
+ * still goes to the same path on the WordPress subdomain. Astro-owned paths are skipped.
  *
  * Usage: node scripts/generate-wp-redirects.mjs
  *        WORDPRESS_ORIGIN=https://wordpress.example.com node scripts/generate-wp-redirects.mjs
@@ -23,9 +24,20 @@ const ASTRO_RESERVED = new Set([
 	'/about/',
 	'/blog',
 	'/blog/',
+	'/wordpress',
+	'/wordpress/',
 	'/rss.xml',
 	'/sitemap-index.xml',
 	'/sitemap-0.xml',
+]);
+
+/** Posts snapshotted under /wordpress. Do not send these back to the subdomain. */
+const ARCHIVED_SLUGS = new Set([
+	'digging-in',
+	'docker-developement-setup',
+	'docker-punch',
+	'hello-world',
+	'my-sql-workbench',
 ]);
 
 const DYNAMIC_RULES = [
@@ -81,6 +93,12 @@ function withoutTrailingSlash(path) {
 	return path === '/' ? path : path.replace(/\/$/, '');
 }
 
+function archiveDestination(sourcePath) {
+	const slug = withoutTrailingSlash(sourcePath).replace(/^\//, '');
+	if (!ARCHIVED_SLUGS.has(slug)) return null;
+	return `/wordpress/${slug}/`;
+}
+
 function addStaticRedirect(redirects, sourcePath) {
 	if (ASTRO_RESERVED.has(sourcePath) || ASTRO_RESERVED.has(withoutTrailingSlash(sourcePath))) {
 		return;
@@ -88,7 +106,7 @@ function addStaticRedirect(redirects, sourcePath) {
 
 	const withSlash = sourcePath.endsWith('/') ? sourcePath : `${sourcePath}/`;
 	const withoutSlash = withoutTrailingSlash(withSlash);
-	const destination = `${WORDPRESS_ORIGIN}${withSlash}`;
+	const destination = archiveDestination(sourcePath) ?? `${WORDPRESS_ORIGIN}${withSlash}`;
 
 	for (const source of new Set([withSlash, withoutSlash])) {
 		if (source === '/') continue;
@@ -113,7 +131,8 @@ async function main() {
 	}
 
 	const lines = [
-		'# Legacy WordPress URLs on therobhenry.com → wordpress subdomain.',
+		'# Archived WordPress posts → /wordpress/<slug> on this site.',
+		'# Other legacy WordPress URLs on therobhenry.com → wordpress subdomain.',
 		'# Regenerate: npm run generate-redirects',
 		`# Source: ${WORDPRESS_ORIGIN}`,
 		'',

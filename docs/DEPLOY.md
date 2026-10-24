@@ -60,10 +60,11 @@ After deploy, view source on `/blog`: image `src` should look like `/_astro/blog
 
 - Confirm `https://therobhenry.com/sitemap-index.xml` loads.
 - Validate RSS: https://validator.w3.org/feed/ (feed URL: `https://therobhenry.com/rss.xml`).
-- Legacy WordPress lives at **`wordpress.therobhenry.com`** (DNS-only subdomain recommended).
-- Old post URLs on the apex domain redirect to the same path on that subdomain via [`public/_redirects`](../public/_redirects) (301). Astro routes (`/`, `/about`, `/blog`, `/rss.xml`, sitemaps) are excluded.
-- Regenerate after WordPress publishes new posts: `npm run generate-redirects`, then commit and deploy.
-- Cloudflare Workers static assets apply `_redirects` at the edge — no dashboard rules required for this list.
+- The five old WordPress posts live at **`/wordpress`** (frozen snapshot). Apex URLs for those posts (`/hello-world`, `/digging-in`, `/docker-punch`, `/docker-developement-setup`, `/my-sql-workbench`) 301 to `/wordpress/<slug>` via [`public/_redirects`](../public/_redirects).
+- Other legacy WordPress URLs on the apex domain (pages, feeds, categories, tags, admin, uploads) still redirect to the same path on **`wordpress.therobhenry.com`**. Astro routes (`/`, `/about`, `/blog`, `/wordpress`, `/rss.xml`, sitemaps) are excluded.
+- Regenerate after WordPress publishes a new page or post: `npm run generate-redirects`, then commit and deploy. Archived slugs stay on `/wordpress/` and are not sent back to the subdomain.
+- The subdomain stays up until that host is shut down. A host-only redirect would miss, because those posts are `/hello-world` there and `/wordpress/hello-world` here. When you retire it, add a Cloudflare rule from `wordpress.therobhenry.com/<slug>` to `https://therobhenry.com/wordpress/<slug>` for the five archived posts, and send every other path to `https://therobhenry.com/wordpress`.
+- Cloudflare Workers static assets apply `_redirects` at the edge — no dashboard rules required for the apex list.
 
 ## Ongoing workflow
 
