@@ -69,6 +69,27 @@ const posts = (await getCollection('blog')).sort(
 			ul a:hover img {
 				box-shadow: var(--box-shadow);
 			}
+			.archive-note {
+				margin-top: 3.5rem;
+				padding-top: 1.75rem;
+				border-top: 1px solid rgb(var(--gray-light));
+				text-align: center;
+			}
+			.archive-note h2 {
+				margin: 0 0 0.35rem;
+				font-size: 0.8rem;
+				font-weight: 700;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+				color: rgb(var(--gray));
+			}
+			.archive-note p {
+				margin: 0;
+			}
+			.archive-note a {
+				display: inline-block;
+				margin-top: 0.35rem;
+			}
 			@media (max-width: 720px) {
 				ul {
 					gap: 0.5em;
@@ -107,6 +128,11 @@ const posts = (await getCollection('blog')).sort(
 						))
 					}
 				</ul>
+			</section>
+			<section class="archive-note" aria-labelledby="archive-note-title">
+				<h2 id="archive-note-title">Older posts</h2>
+				<p>Five posts from the WordPress years, kept as they were.</p>
+				<p><a href="/wordpress/">WordPress archive</a></p>
 			</section>
 		</main>
 		<Footer />
