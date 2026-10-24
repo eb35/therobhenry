@@ -1,7 +1,7 @@
 ---
 title: 'Throwing Out WordPress'
 description: 'The old WordPress blog was five posts on its own host. I kept the writing and dropped the install.'
-pubDate: 'Oct 24 2026'
+pubDate: 'Oct 23 2026'
 heroImage: './hero.jpg'
 ---
 
